@@ -1,0 +1,34 @@
+{% extends "layout.html" %} {% block content %}
+
+<head>
+	<title>AirBDN Newsletter</title>
+</head>
+
+<body>
+	<h1>Air Quality Newsletter</h1>
+	<p>Enter your email address below to receive air quality alerts and our newsletter!</p>
+	
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Subscribe</legend>
+				<div class="form-group">
+					{{ form.email.label(class="form-control-label") }}"> {% if form.email.errors %} {{ form.email(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.email.errors%}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.email(class="form-control form-control-lg") }}
+					{% endif%}
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn_outline_info") }}
+			</div>
+		</form>
+	</div>
+</body>
+{% endblock content %}

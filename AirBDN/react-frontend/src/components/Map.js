@@ -30,7 +30,7 @@ export default function Map({ darkMode }) {
           console.log(data[sensor].P1)
           L.circleMarker(data[sensor].lat_lon, {
             color: "#00000000",
-            fillColor: `#${gradientGreenRed.rgbAt((data[sensor].P1)/3).toHex()}A0`,
+            fillColor: `#${gradientGreenRed.rgbAt(Math.min(1,((data[sensor].P1)/35))).toHex()}A0`,
             fillOpacity: 1,
             radius: 15
           }).addTo(abdn_map);

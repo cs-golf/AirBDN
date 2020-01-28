@@ -5,6 +5,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Map from "./components/Map";
 import Newsletter from "./components/Newsletter";
+import Graph from "./components/Graph";
 
 const App = () => {
   // media checks

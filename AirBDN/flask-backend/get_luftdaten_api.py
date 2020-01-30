@@ -48,7 +48,7 @@ def mongo_update_info(box):
     # returns db_info
     def parse_to_mongo(entry):
         db_info.update_one(
-            {"_id": str(entry['location']['id'])},
+            {"_id": entry['location']['id']},
             {'$set': {"lat": round(float(entry['location']['latitude']), 3),
                       "lon": round(float(entry['location']['longitude']), 3),
                       f"sensors.{entry['sensor']['sensor_type']['name']}":  entry['sensor']['id']
@@ -58,8 +58,8 @@ def mongo_update_info(box):
         )
         for value in entry["sensordatavalues"]:
             db_info.update_one(
-                {"_id": str(entry['location']['id'])},
-                {'$set': {f"recent_values.{value['value_type']}":  value['value']
+                {"_id": entry['location']['id']},
+                {'$set': {f"recent_values.{value['value_type']}":  float(value['value'])
                           }},
                 upsert=True
             )
@@ -95,12 +95,10 @@ def mongo_update_readings(name_id, day):
 
     def parse_to_mongo(headings, row):
         db_readings.update_one(
-            {"date": str(parse(row[5]).date()),
-             "time": str(floor_time(parse(row[5])).time())
-             },
-            {'$set': {"date": str(parse(row[5]).date()),
-                      "time": str(floor_time(parse(row[5])).time())
-                      }},
+            {"location_id": int(row[2]),
+             "timestamp": parse(row[5])},
+            {'$set': {"lat": float(row[3]),
+                      "lon": float(row[4])}},
             upsert=True
         )
         for i, key in enumerate(headings[6:]):
@@ -108,15 +106,14 @@ def mongo_update_readings(name_id, day):
             if row[i]:
                 if row[i] != 'nan':
                     db_readings.update_one(
-                        {"date": str(parse(row[5]).date()),
-                         "time": str(floor_time(parse(row[5])).time())
-                         },
-                        {"$set": {f"{row[2]}.{key}": row[i]}},
+                        {"location_id": int(row[2]),
+                         "timestamp": parse(row[5])},
+                        {"$set": {f"{key}": float(row[i])}},
                         upsert=True
                     )
 
-    raw_readings = get_raw_readings(name_id, day)
     # raw_readings = [[headings],[row],[row]...]
+    raw_readings = get_raw_readings(name_id, day)
 
     if raw_readings:
         for row in raw_readings[1:]:
@@ -146,7 +143,7 @@ def mongo_mass_update_readings(box, start_date, no_of_days=1):
 
     print("> Starting mass update...")
     for i, name_id in enumerate(url_list):
-        print(f"updating {name_id} {i}/{len(url_list)}")
+        print(f"updating {name_id} {i+1}/{len(url_list)}")
         for i in range(no_of_days):
             current_date = str((start_date + timedelta(days=i)).date())
             print(f"    updating {name_id} {current_date}")
@@ -161,7 +158,7 @@ def main():
     # smaller_test_box = "57.17,-2.13,57.16,-2.11"
 
     pprint(mongo_update_info(aberdeen_box))
-    ## pprint( mongo_mass_update_readings(aberdeen_box, "2019-12-1", 31) )
+    # pprint(mongo_mass_update_readings(smaller_test_box, "2019-12-1", 1))
 
     return()
 

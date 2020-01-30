@@ -10,8 +10,8 @@ const App = () => {
   // media checks
   const [darkMode] = useState(
     useMediaPredicate("(prefers-color-scheme: dark)")
+    // false
   );
-
   const [xs_bool] = useState(useMediaPredicate("(max-height: 600px)"));
   const [sm_bool] = useState(useMediaPredicate("(max-height: 900px)"));
   const [md_bool] = useState(useMediaPredicate("(max-height: 1200px)"));
@@ -35,7 +35,7 @@ const App = () => {
   };
 
   const backgroundStyle = darkMode
-    ? { ...baseBackground, backgroundColor: "#333333" }
+    ? { ...baseBackground, backgroundColor: "#171717" }
     : { ...baseBackground, backgroundColor: "#ffffff" };
 
   // page set

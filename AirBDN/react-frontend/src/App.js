@@ -5,6 +5,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Map from "./components/Map";
 import Newsletter from "./components/Newsletter";
+import About from "./components/About";
 
 const App = () => {
   // media checks
@@ -46,7 +47,7 @@ const App = () => {
       <Header darkMode={darkMode} viewRes={viewRes} setPage={setPage} />
       {page === "home" && <Map darkMode={darkMode} />}
       {page === "newsletter" && <Newsletter darkMode={darkMode} />}
-      {page === "about" && <div>test</div>}
+      {page === "about" && <About darkMode={darkMode} />}
     </div>
   );
 };

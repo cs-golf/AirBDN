@@ -46,7 +46,7 @@ def mongo_update_info(box):
     # gets luftdaten data for all sensors within a given lat/log box
     # updates db_info = [ {'_id': '11991', 'lat': 57.15, 'lon': -2.134, 'sensors': {'DHT22': 23629...}}... ]
     # returns db_info
-    def parse_to_mongo(entry):
+    def to_db_info(entry):
         db_info.update_one(
             {"_id": entry['location']['id']},
             {'$set': {"lat": round(float(entry['location']['latitude']), 3),
@@ -63,10 +63,19 @@ def mongo_update_info(box):
                           }},
                 upsert=True
             )
-        return()
+
+    def persist_to_db_readings(entry):
+        for reading in entry['sensordatavalues']:
+            db_readings.update_one(
+                {"location_id": entry['location']['id'],
+                 "timestamp": parse(entry['timestamp'])},
+                {'$set': {reading['value_type']: reading['value']}},
+                upsert=True
+            )
 
     for entry in get_raw_info(box):
-        parse_to_mongo(entry)
+        to_db_info(entry)
+        persist_to_db_readings(entry)
 
     return(list(db_info.find()))
 
@@ -94,13 +103,6 @@ def mongo_update_readings(name_id, day):
     # returns parsed readings with bucketing
 
     def parse_to_mongo(headings, row):
-        db_readings.update_one(
-            {"location_id": int(row[2]),
-             "timestamp": parse(row[5])},
-            {'$set': {"lat": float(row[3]),
-                      "lon": float(row[4])}},
-            upsert=True
-        )
         for i, key in enumerate(headings[6:]):
             i += 6
             if row[i]:
@@ -154,14 +156,12 @@ def mongo_mass_update_readings(box, start_date, no_of_days=1):
 
 
 def main():
-    aberdeen_box = "57.23,-2.36,57.07,-2.04"
+    # aberdeen_box = "57.23,-2.36,57.07,-2.04"
     # smaller_test_box = "57.17,-2.13,57.16,-2.11"
 
-    pprint(mongo_update_info(aberdeen_box))
+    # pprint(mongo_update_info(aberdeen_box))
     # pprint(mongo_mass_update_readings(smaller_test_box, "2019-12-1", 1))
-
     return()
-
 
 if __name__ == '__main__':
     main()

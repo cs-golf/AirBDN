@@ -1,15 +1,13 @@
 import React from "react";
-import { TextField, Card, Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 
 export default function Newsletter({ darkMode }) {
   // css objects
   const baseStyle = {
-    color: "#FFF",
-    // backgroundColor: "#333",
-    marginTop: "10%",
-    width: "80%",
-    height: "80%",
-    marginLeft: "10%",
+    marginTop: "60px",
+    // width: "80%",
+    // height: "80%",
+    // marginLeft: "10%",
     textAlign: "center",
     fontSize: "2em"
     // marginLeft: "15%",
@@ -17,7 +15,9 @@ export default function Newsletter({ darkMode }) {
     // marginTop: "60px"
   };
 
-  const pageStyle = darkMode ? { ...baseStyle } : { ...baseStyle };
+  const pageStyle = darkMode
+    ? { ...baseStyle, color: "#FFF" }
+    : { ...baseStyle, color: "#000" };
 
   return (
     <div style={pageStyle}>
@@ -26,23 +26,21 @@ export default function Newsletter({ darkMode }) {
         quality in Aberdeen
         <br />
         <br />
-        <br />
         <div
           style={{
-            backgroundColor: "#AAA",
+            backgroundColor: "#CCC",
             width: "80%",
             margin: "auto",
             borderRadius: "10px"
           }}
         >
           <TextField
-            style={{ width: "80%" }}
+            style={{ width: "90%" }}
             label="Email"
             type="email"
             autoCompleteF="current-email"
           />
-          <Button>
-          </Button>
+          <Button></Button>
         </div>
       </form>
     </div>

@@ -31,8 +31,6 @@ Collection "readings" holds an object, containing all sensor readings, for each 
     "_id": { "$oid": "5e320e33b391fea367418a14" },
     "location_id": 11441,
     "timestamp": { "$date": 1575165745000 },
-    "lat": 57.164,
-    "lon": -2.12,
     "P1": 0.93,
     "P2": 0.6
   },
@@ -40,8 +38,6 @@ Collection "readings" holds an object, containing all sensor readings, for each 
     "_id": { "$oid": "5e320e33b391fea367418a24" },
     "location_id": 11441,
     "timestamp": { "$date": 1575166347000 },
-    "lat": 57.164,
-    "lon": -2.12,
     "P1": 1.23,
     "P2": 0.4,
     "temperature": 0.5,

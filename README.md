@@ -13,5 +13,3 @@ To do:
 * about page
     * add text to about page
     * maybe donate button to charity?
-* backend
-    * log each timestamp in file for keeping track of holes in db (say if server goes down, based on this file we'll know what we need to add to db)

@@ -14,7 +14,6 @@ db_readings = db.readings
 
 app = Flask(__name__)
 
-
 @app.route("/api/info")
 def get_map():
     output = list(db_info.find())

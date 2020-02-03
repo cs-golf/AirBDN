@@ -69,7 +69,7 @@ def mongo_update_info(box):
             db_readings.update_one(
                 {"location_id": entry['location']['id'],
                  "timestamp": parse(entry['timestamp'])},
-                {'$set': {reading['value_type']: reading['value']}},
+                {'$set': {reading['value_type']: float(reading['value'])}},
                 upsert=True
             )
 

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, date
 from dateutil.parser import parse
 import time
+from math import isnan
 from pymongo import MongoClient
 import csv
 import json
@@ -23,6 +24,17 @@ def floor_time(dt, resolution_in_minutes=5):
         dt = dt - timedelta(minutes=(int(dt.minute) %
                                      resolution_in_minutes)) - timedelta(seconds=dt.second)
     return(dt)
+
+
+def smart_float(value):
+    try:
+        floatified = float(value)
+        if isnan(floatified):
+            return value
+        else:
+            return floatified
+    except:
+        return value
 
 
 def get_raw_info(box):
@@ -58,8 +70,8 @@ def mongo_update_info(box):
         for value in entry["sensordatavalues"]:
             db_info.update_one(
                 {"_id": entry['location']['id']},
-                {'$set': {f"recent_values.{value['value_type']}":  float(value['value'])
-                          }},
+                {'$set': {f"recent_values.{value['value_type']}":  smart_float(value['value'])
+                            }},
                 upsert=True
             )
 
@@ -155,12 +167,13 @@ def mongo_mass_update_readings(box, start_date, no_of_days=1):
 
 
 def main():
-    aberdeen_box = "57.23,-2.36,57.07,-2.04"
-    smaller_test_box = "57.17,-2.13,57.16,-2.11"
-    
-    pprint(mongo_mass_update_readings(smaller_test_box, "2019-12-1", 1))
-    pprint(mongo_update_info(aberdeen_box))
+    # aberdeen_box = "57.23,-2.36,57.07,-2.04"
+    # smaller_test_box = "57.17,-2.13,57.16,-2.11"
+
+    # pprint(mongo_mass_update_readings(smaller_test_box, "2019-12-1", 1))
+    # pprint(mongo_update_info(aberdeen_box))
     return()
+
 
 if __name__ == '__main__':
     main()

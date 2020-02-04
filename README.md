@@ -1,5 +1,7 @@
 To do:
 * Add a github project description here
+* we need a logo / icon
+* migrate the project to open source (after we pretty up this page)
 * map page
     * menu for choosing what values you want to view
     * hover over sensor for info box

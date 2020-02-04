@@ -52,7 +52,6 @@ def mongo_update_info(box):
             {'$set': {"lat": round(float(entry['location']['latitude']), 3),
                       "lon": round(float(entry['location']['longitude']), 3),
                       f"sensors.{entry['sensor']['sensor_type']['name']}":  entry['sensor']['id']
-                      #   f"recent_values.{entry['sensor']['sensor_type']['name']}":  entry['sensor']['id']
                       }},
             upsert=True
         )
@@ -156,11 +155,11 @@ def mongo_mass_update_readings(box, start_date, no_of_days=1):
 
 
 def main():
-    # aberdeen_box = "57.23,-2.36,57.07,-2.04"
-    # smaller_test_box = "57.17,-2.13,57.16,-2.11"
+    aberdeen_box = "57.23,-2.36,57.07,-2.04"
+    smaller_test_box = "57.17,-2.13,57.16,-2.11"
     
-    # pprint(mongo_update_info(aberdeen_box))
-    # pprint(mongo_mass_update_readings(smaller_test_box, "2019-12-1", 1))
+    pprint(mongo_mass_update_readings(smaller_test_box, "2019-12-1", 1))
+    pprint(mongo_update_info(aberdeen_box))
     return()
 
 if __name__ == '__main__':

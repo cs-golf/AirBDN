@@ -7,4 +7,4 @@ starttime = time.time()
 while True:
     print("updating data")
     mongo_update_info(aberdeen_box)
-    time.sleep(300.0 - ((time.time() - starttime) % 300.0))
+    time.sleep(150 - ((time.time() - starttime) % 150))

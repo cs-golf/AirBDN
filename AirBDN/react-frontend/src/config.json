@@ -1,0 +1,11 @@
+{
+  "heatmapConfig": {
+    "radius": 0.01,
+    "maxOpacity": 0.5,
+    "scaleRadius": true,
+    "useLocalExtrema": false
+  },
+  "heatmapRedValues": {
+    "P1": 33
+  }
+}

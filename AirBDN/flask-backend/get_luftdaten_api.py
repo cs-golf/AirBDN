@@ -61,8 +61,8 @@ def mongo_update_info(box):
     def to_db_info(entry):
         db_info.update_one(
             {"_id": entry['location']['id']},
-            {'$set': {"lat": round(float(entry['location']['latitude']), 3),
-                      "lon": round(float(entry['location']['longitude']), 3),
+            {'$set': {"lat": round(smart_float(entry['location']['latitude']), 3),
+                      "lon": round(smart_float(entry['location']['longitude']), 3),
                       f"sensors.{entry['sensor']['sensor_type']['name']}":  entry['sensor']['id']
                       }},
             upsert=True
@@ -80,7 +80,7 @@ def mongo_update_info(box):
             db_readings.update_one(
                 {"location_id": entry['location']['id'],
                  "timestamp": parse(entry['timestamp'])},
-                {'$set': {reading['value_type']: float(reading['value'])}},
+                {'$set': {reading['value_type']: smart_float(reading['value'])}},
                 upsert=True
             )
 
@@ -121,7 +121,7 @@ def mongo_update_readings(name_id, day):
                     db_readings.update_one(
                         {"location_id": int(row[2]),
                          "timestamp": parse(row[5])},
-                        {"$set": {f"{key}": float(row[i])}},
+                        {"$set": {f"{key}": smart_float(row[i])}},
                         upsert=True
                     )
 

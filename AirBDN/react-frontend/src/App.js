@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { useMediaPredicate } from "react-media-hook";
-import "./App.css";
-//components
-import Header from "./components/Header";
-import Map from "./components/Map";
-import Newsletter from "./components/Newsletter";
-import About from "./components/About";
+import { Map, Header, Newsletter, About } from "./components"
 
 const App = () => {
   // media checks

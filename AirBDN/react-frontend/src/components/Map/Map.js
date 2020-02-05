@@ -5,11 +5,12 @@ import "leaflet/dist/leaflet.css";
 import Box from "@material-ui/core/Box";
 // import "leaflet.heat/dist/leaflet-heat.js";
 import HeatmapOverlay from "heatmap.js/plugins/leaflet-heatmap/leaflet-heatmap";
-import { heatmapRedValues, heatmapConfig } from "../config.json";
+import { heatmapRedValues, heatmapConfig } from "../../config.json";
 
 export default function Map({ darkMode }) {
-  // const mapStyle = darkMode ? 'https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png' : "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
   const mapStyle = "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png";
+  // const mapStyle = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
+  // const mapStyle = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
 
   // runs after component did mount
   useEffect(() => {

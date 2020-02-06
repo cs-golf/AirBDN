@@ -1,0 +1,11 @@
+#mapid {
+  height: calc(100vh - 50px);
+  margin-top: 50px;
+}
+@media (orientation: landscape) {
+  #mapid {
+    height: 100vh;
+    margin-left: 240px;
+    margin-top: 0px;
+  }
+}

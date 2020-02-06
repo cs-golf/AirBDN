@@ -1,0 +1,28 @@
+@import "../../App.css";
+
+/* hiding of drawer and app bar, landscape vs portrait*/
+#landscape {
+  display: none;
+}
+@media (orientation: landscape) {
+  #portrait {
+    display: none;
+  }
+  #landscape {
+    display: block;
+  }
+}
+
+.drawer {
+  background-color: var(--bg);
+  color: var(--text);
+  width: 240px;
+  height: 100vh;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 10vh; 
+}

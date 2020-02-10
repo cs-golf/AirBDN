@@ -1,4 +1,9 @@
 To do:
+* waqi.info does many things we aim to do but better, therefore I think we need a shift in focus:
+   * we should defnitely not focus only on aberdeen, make our code easily expandable into other areas
+   * differentiate ourselves:
+      * make it open source
+      * integrate front end with CodeTheCity and luftdaten - allow users to buy (and name?) a sensor (choose a location from a shortlist?)
 * github page
     * Add a github project description here
     * migrate the project to open source (after we pretty up this page)

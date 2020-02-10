@@ -32,31 +32,29 @@ export default function Map({ darkMode, targetValue }) {
     };
   };
 
-  let abdn_map;
-  let heatmapLayer = new HeatmapOverlay({
-    ...heatmapConfig,
-    valueField: "value"
-  });
   // runs after component did mount
   useEffect(() => {
-    abdn_map = L.map("mapid").setView([57.148, -2.11], 13);
+    window.abdn_map = L.map("mapid").setView([57.148, -2.11], 13);
+
+    window.heatmapLayer = new HeatmapOverlay({
+      ...heatmapConfig,
+      valueField: "value"
+    });
 
     L.tileLayer(mapStyle, {
       maxZoom: 18,
       minZoom: 11,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
-    }).addTo(abdn_map);
-    
-    axios.get(`/api/info`).then(resp => {
-      heatmapLayer.setData(parseMapData(resp.data, targetValue));
-    });
-    heatmapLayer.addTo(abdn_map);
+    }).addTo(window.abdn_map);
+    window.heatmapLayer.addTo(window.abdn_map);
   }, []);
 
-  // changes values displayed on map (eg.: humidity => temperature)
+  // changes and refreshes values displayed on map (eg.: humidity => temperature)
   useEffect(() => {
-    console.log(heatmapLayer);
+    axios.get(`/api/info`).then(resp => {
+      window.heatmapLayer.setData(parseMapData(resp.data, targetValue));
+    });
   }, [targetValue]);
 
   return <div id="mapid" />;

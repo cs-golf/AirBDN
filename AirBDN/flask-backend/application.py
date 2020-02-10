@@ -1,21 +1,18 @@
 from flask import Flask, Response
-from pymongo import MongoClient
 from bson.json_util import dumps
 
-db = MongoClient("mongodb://localhost:27017/")["AirBDN"]
-db_info = db.info
-db_readings = db.readings
+from db.mongo import db_info, db_readings, db_query
 
 application = Flask(__name__)
 
 
 def get_info():
-    output = dumps(db_info.find())
+    output = dumps(db_query(db_info))
     return Response(output,  mimetype="application/json")
 
 
 def get_readings():
-    output = dumps(db_readings.find().limit(20))
+    output = dumps(db_query(db_readings).limit(20))
     return Response(output,  mimetype='application/json')
 
 

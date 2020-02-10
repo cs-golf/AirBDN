@@ -1,4 +1,4 @@
-from get_luftdaten_api import mongo_update_info
+from db.luftdaten_get_api import mongo_update_info
 from config import luftdaten_area_box
 import time
 

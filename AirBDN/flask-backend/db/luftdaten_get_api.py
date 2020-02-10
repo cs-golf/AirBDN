@@ -3,9 +3,9 @@ import json
 import requests
 # from pprint import pprint
 
-from AQI_calc import PM25_AQI, PM10_AQI
-from mongo import db_insert, db_query, db_info, db_readings
-from query_scripts import floatify
+from db.AQI_calc import PM25_AQI, PM10_AQI
+from db.mongo import db_insert, db_query, db_info, db_readings
+from db.query_scripts import floatify
 
 
 def get_raw_info(box):

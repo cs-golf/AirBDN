@@ -3,9 +3,9 @@ from dateutil.parser import parse
 import csv
 import requests
 
-from mongo import db_insert, db_query, db_info, db_readings
-from query_scripts import floatify
-from luftdaten_get_api import get_raw_info
+from db.mongo import db_insert, db_query, db_info, db_readings
+from db.query_scripts import floatify
+from db.luftdaten_get_api import get_raw_info
 # from pprint import pprint
 
 

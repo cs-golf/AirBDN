@@ -7,6 +7,7 @@ import csv
 import json
 from pprint import pprint
 import requests
+from AQI_calc import PM25_AQI, PM10_AQI
 
 db = MongoClient("mongodb://localhost:27017/")["AirBDN"]
 db_info = db.info
@@ -27,6 +28,9 @@ def floor_time(dt, resolution_in_minutes=5):
 
 
 def smart_float(value):
+    # converts "{number}" to float
+    # but not if "{number}" is nan
+    # omits "{string}"
     try:
         floatified = float(value)
         if isnan(floatified):
@@ -67,20 +71,34 @@ def mongo_update_info(box):
                       }},
             upsert=True
         )
-        for value in entry["sensordatavalues"]:
+        for reading in entry["sensordatavalues"]:
             db_info.update_one(
                 {"_id": entry['location']['id']},
-                {'$set': {f"recent_values.{value['value_type']}":  smart_float(value['value'])
-                            }},
+                {'$set': {f"recent_values.{reading['value_type']}":  smart_float(reading['value'])
+                          }},
                 upsert=True
             )
+            if reading['value_type'] == "P1":
+                db_info.update_one(
+                    {"_id": entry['location']['id']},
+                    {'$set': {f"recent_values.aqi_{reading['value_type']}":  float(PM10_AQI(smart_float(reading['value'])))
+                              }},
+                    upsert=True
+                )
+            if reading['value_type'] == "P2":
+                db_info.update_one(
+                    {"_id": entry['location']['id']},
+                    {'$set': {f"recent_values.aqi_{reading['value_type']}":  float(PM25_AQI(smart_float(reading['value'])))
+                              }},
+                    upsert=True
+                )
 
     def persist_to_db_readings(entry):
         for reading in entry['sensordatavalues']:
             db_readings.update_one(
                 {"location_id": entry['location']['id'],
                  "timestamp": parse(entry['timestamp'])},
-                {'$set': {reading['value_type']: smart_float(reading['value'])}},
+                {'$set': {reading['value_type']                          : smart_float(reading['value'])}},
                 upsert=True
             )
 

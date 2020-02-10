@@ -14,15 +14,13 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import "./Sidebar.css";
-import axios from "axios";
+import { heatmapRedValues } from "../../config.json";
 
 function ResponsiveDrawer({ setTargetValue }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-//   axios.get(`/api/info`).then(resp => {
-//     console.log(resp.data);
-//   });
+
   const drawer = (
     <div className="drawer">
       <img src="logo192.png" alt="logo" />
@@ -38,14 +36,7 @@ function ResponsiveDrawer({ setTargetValue }) {
       </List>
       <Divider />
       <List>
-        {[
-          "P1",
-          "P2",
-          "temperature",
-          "pressure",
-          "humidity",
-          "pressure_at_sealevel"
-        ].map(value => (
+        {Object.keys(heatmapRedValues).map(value => (
           <ListItem button key={value}>
             <ListItemText
               primary={value}

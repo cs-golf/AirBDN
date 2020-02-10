@@ -8,9 +8,10 @@
   "heatmapRedValues": {
     "P1": 33,
     "P2": 33,
+    "aqi_P1": 150,
+    "aqi_P2": 150,
     "temperature": 33,
     "pressure": 33,
-    "humidity": 33,
-    "pressure_at_sealevel": 33
+    "humidity": 33
   }
 }

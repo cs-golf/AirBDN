@@ -1,10 +1,10 @@
 from get_luftdaten_api import mongo_update_info
+from config import luftdaten_area_box
 import time
 
-aberdeen_box = "57.23,-2.36,57.07,-2.04"
 starttime = time.time()
 
 while True:
-    print("updating data")
-    mongo_update_info(aberdeen_box)
+    print(f"{time.time()}: updating data for boundary {luftdaten_area_box}")
+    mongo_update_info(luftdaten_area_box)
     time.sleep(150 - ((time.time() - starttime) % 150))

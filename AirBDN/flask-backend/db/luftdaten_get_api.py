@@ -31,28 +31,30 @@ def mongo_update_info(box):
     # returns db_info
     def db_insert_info(entry):
         db_insert(db_info, {"_id": entry['location']['id']},
-              {"lat": round(floatify(entry['location']['latitude']), 3),
-               "lon": round(floatify(entry['location']['longitude']), 3),
-               f"sensors.{entry['sensor']['sensor_type']['name']}":  entry['sensor']['id']})
+                  {"lat": round(floatify(entry['location']['latitude']), 3),
+                   "lon": round(floatify(entry['location']['longitude']), 3),
+                   f"sensors.{entry['sensor']['sensor_type']['name']}":  entry['sensor']['id']})
 
         for reading in entry["sensordatavalues"]:
             db_insert(db_info, {"_id": entry['location']['id']},
-                  {f"recent_values.{reading['value_type']}":  floatify(reading['value'])})
+                      {f"recent_values.{reading['value_type']}":  floatify(reading['value'])})
             if reading['value_type'] == "P1":
                 db_insert(db_info, {"_id": entry['location']['id']},
-                      {f"recent_values.aqi_{reading['value_type']}":  float(PM10_AQI(floatify(reading['value'])))})
+                          {f"recent_values.aqi_{reading['value_type']}":  float(PM10_AQI(floatify(reading['value'])))})
             if reading['value_type'] == "P2":
                 db_insert(db_info, {"_id": entry['location']['id']},
-                      {f"recent_values.aqi_{reading['value_type']}":  float(PM25_AQI(floatify(reading['value'])))})
+                          {f"recent_values.aqi_{reading['value_type']}":  float(PM25_AQI(floatify(reading['value'])))})
 
     def db_insert_readings(entry):
         for reading in entry['sensordatavalues']:
             db_insert(db_readings, {"location_id": entry['location']['id'], "timestamp": parse(entry['timestamp'])},
-                  {reading['value_type']: floatify(reading['value'])})
+                      {reading['value_type']: floatify(reading['value'])})
 
-    for entry in get_raw_info(box):
-        db_insert_info(entry)
-        db_insert_readings(entry)
+    raw_info = get_raw_info(box)
+    if raw_info:
+        for entry in raw_info:
+            db_insert_info(entry)
+            db_insert_readings(entry)
 
     return(list(db_query(db_info)))
 

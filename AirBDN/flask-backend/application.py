@@ -2,7 +2,10 @@ from flask import Flask, Response
 from bson.json_util import dumps
 
 from db.mongo import db_info, db_readings, db_query
+from periodic_update import update_thread
+from config import luftdaten_area_box
 
+update_thread.start()
 application = Flask(__name__)
 
 

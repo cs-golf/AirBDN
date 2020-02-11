@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import Map from "./components/Map";
 import Newsletter from "./components/Newsletter";
 import Graph from "./components/Graph";
-import DataDownload from ".components/DataDownload";
 
 const App = () => {
   // media checks

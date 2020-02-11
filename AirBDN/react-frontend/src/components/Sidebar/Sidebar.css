@@ -1,6 +1,6 @@
 @import "../../App.css";
 
-/* hiding of drawer and app bar, landscape vs portrait*/
+/* hiding of sidebar and app bar, landscape vs portrait*/
 #landscape {
   display: none;
 }
@@ -13,7 +13,7 @@
   }
 }
 
-.drawer {
+.sidebar {
   background-color: var(--bg);
   color: var(--text);
   width: 240px;

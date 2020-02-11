@@ -14,21 +14,21 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import "./Sidebar.css";
-import { heatmapRedValues } from "../../config.json";
+import { heatmap } from "../../config.json";
 
-function ResponsiveDrawer({ setTargetValue }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+function Sidebar({ setTargetValue }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  const drawer = (
-    <div className="drawer">
+  const sidebarContent = (
+    <div className="sidebar">
       <img src="logo192.png" alt="logo" />
       <div className="toolbar" />
       <Divider />
       <List>
         <ListItem button key={"Inbox"}>
-          <ListItemIcon>
+          <ListItemIcon>``
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Inbox"} />
@@ -36,7 +36,7 @@ function ResponsiveDrawer({ setTargetValue }) {
       </List>
       <Divider />
       <List>
-        {Object.keys(heatmapRedValues).map(value => (
+        {Object.keys(heatmap.redValues).map(value => (
           <ListItem button key={value}>
             <ListItemText
               primary={value}
@@ -55,9 +55,8 @@ function ResponsiveDrawer({ setTargetValue }) {
           <Toolbar>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
               edge="start"
-              onClick={handleDrawerToggle}
+              onClick={toggleSidebar}
               className={"menuButton"}
             >
               <MenuIcon />
@@ -67,20 +66,20 @@ function ResponsiveDrawer({ setTargetValue }) {
         </AppBar>
         <Drawer
           variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
+          open={sidebarOpen}
+          onClose={toggleSidebar}
           ModalProps={{ keepMounted: true }}
         >
-          {drawer}
+          {sidebarContent}
         </Drawer>
       </div>
       <div id="landscape">
         <Drawer variant="permanent" open>
-          {drawer}
+          {sidebarContent}
         </Drawer>
       </div>
     </React.Fragment>
   );
 }
 
-export default ResponsiveDrawer;
+export default Sidebar;

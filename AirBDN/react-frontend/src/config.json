@@ -1,17 +1,26 @@
 {
-  "heatmapConfig": {
-    "radius": 0.01,
-    "maxOpacity": 0.5,
-    "scaleRadius": true,
-    "useLocalExtrema": false
-  },
-  "heatmapRedValues": {
-    "P1": 33,
-    "P2": 33,
-    "aqi_P1": 150,
-    "aqi_P2": 150,
-    "temperature": 33,
-    "pressure": 33,
-    "humidity": 33
+  "heatmap": {
+    "config": {
+      "radius": 0.01,
+      "minOpacity": 0,
+      "maxOpacity": 0.7,
+      "scaleRadius": true,
+      "useLocalExtrema": false,
+      "gradient": {
+        "0.1": "rgb(0,228,0)",
+        "0.2": "rgb(255,255,0)",
+        "0.3": "rgb(255,126,0)",
+        "0.4": "rgb(255,0,0)",
+        "0.6": "rgb(153,0,76)",
+        "1": "rgb(76,0,38)"
+      }
+    },
+    "redValues": {
+      "aqi_P1": 150,
+      "aqi_P2": 150,
+      "temperature": 33,
+      "pressure": 33,
+      "humidity": 33
+    }
   }
 }

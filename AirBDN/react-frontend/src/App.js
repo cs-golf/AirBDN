@@ -49,7 +49,6 @@ const App = () => {
       {page === "Home" && <Map darkMode={darkMode} />}
       {page === "Newsletter" && <Newsletter darkMode={darkMode} />}
       {page === "About" && <div>test</div>}
-      {page === "Data Download"}
     </div>
   );
 };

@@ -71,15 +71,6 @@ export default function Header({ darkMode, viewRes, setPage }) {
           >
             About
           </Link>
-          <Link
-            href="#"
-            color="inherit"
-            underline="none"
-            style={textStyle}
-            onClick={() => setPage("datadownload")}
-          >
-            Data Download  
-          </Link>
         </Typography>
       </Toolbar>
     </AppBar>

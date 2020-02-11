@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Map from "./components/Map";
 import Newsletter from "./components/Newsletter";
 import Graph from "./components/Graph";
+import DataDownload from ".components/DataDownload";
 
 const App = () => {
   // media checks
@@ -45,9 +46,10 @@ const App = () => {
   return (
     <div style={backgroundStyle}>
       <Header darkMode={darkMode} viewRes={viewRes} setPage={setPage} />
-      {page === "home" && <Map darkMode={darkMode} />}
-      {page === "newsletter" && <Newsletter darkMode={darkMode} />}
-      {page === "about" && <div>test</div>}
+      {page === "Home" && <Map darkMode={darkMode} />}
+      {page === "Newsletter" && <Newsletter darkMode={darkMode} />}
+      {page === "About" && <div>test</div>}
+      {page === "Data Download"}
     </div>
   );
 };

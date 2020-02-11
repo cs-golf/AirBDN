@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { useMediaPredicate } from "react-media-hook";
 import "./App.css";
 //components
-import Header from "./components/Header";
-import Map from "./components/Map";
-import Newsletter from "./components/Newsletter";
-import Graph from "./components/Graph";
 
 const App = () => {
   // media checks
@@ -43,12 +39,7 @@ const App = () => {
   const [page, setPage] = useState("home");
 
   return (
-    <div style={backgroundStyle}>
-      <Header darkMode={darkMode} viewRes={viewRes} setPage={setPage} />
-      {page === "Home" && <Map darkMode={darkMode} />}
-      {page === "Newsletter" && <Newsletter darkMode={darkMode} />}
-      {page === "About" && <div>test</div>}
-    </div>
+
   );
 };
 

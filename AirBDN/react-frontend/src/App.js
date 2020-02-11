@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useMediaPredicate } from "react-media-hook";
-import "./App.css";
 //components
 
 const App = () => {
@@ -39,7 +37,6 @@ const App = () => {
   const [page, setPage] = useState("home");
 
   return (
-
   );
 };
 

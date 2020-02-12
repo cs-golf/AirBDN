@@ -39,7 +39,7 @@ function Sidebar({ setTargetValue, setPage, page }) {
       <Divider />
       {page === "Home" && (
         <List>
-          {Object.keys(heatmap.redValues).map(value => (
+          {["sensors", ...Object.keys(heatmap.redValues)].map(value => (
             <ListItem button key={value}>
               <ListItemText
                 primary={value}
@@ -78,7 +78,11 @@ function Sidebar({ setTargetValue, setPage, page }) {
         </Drawer>
       </div>
       <div id="landscape">
-        <Drawer variant="permanent" open>
+        <Drawer
+          variant="permanent"
+          open
+          ModalProps={{ keepMounted: true }}
+        >
           {sidebarContent}
         </Drawer>
       </div>

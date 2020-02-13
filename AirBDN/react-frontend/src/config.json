@@ -1,4 +1,7 @@
 {
+  "sensorIcons": {
+    "config": { "radius": 100, "color": "#333", "fillColor": "#0005" }
+  },
   "heatmap": {
     "config": {
       "radius": 0.01,
@@ -7,7 +10,7 @@
       "scaleRadius": true,
       "useLocalExtrema": false,
       "gradient": {
-        "0.1": "rgb(0,228,0)",
+        "0.01": "rgb(0,228,0)",
         "0.2": "rgb(255,255,0)",
         "0.3": "rgb(255,126,0)",
         "0.4": "rgb(255,0,0)",
@@ -16,10 +19,13 @@
       }
     },
     "redValues": {
+      "P1": 33,
+      "P2": 33,
       "aqi_P1": 150,
       "aqi_P2": 150,
       "temperature": 33,
       "pressure": 33,
+      "pressure_at_sea_level": 33,
       "humidity": 33
     }
   }

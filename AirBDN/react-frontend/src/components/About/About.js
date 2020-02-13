@@ -1,4 +1,5 @@
 import React from "react";
+import "./About.css";
 
 export default function About({ darkMode }) {
   // css objects
@@ -20,7 +21,7 @@ export default function About({ darkMode }) {
 
   return (
     <div style={pageStyle}>
-      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      <h1>About Us</h1>
     </div>
   );
 }

@@ -16,7 +16,7 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import "./Sidebar.css";
 import { heatmap } from "../../config.json";
 
-function Sidebar({ setTargetValue }) {
+function Sidebar({ setTargetValue, setPage, page }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -27,24 +27,28 @@ function Sidebar({ setTargetValue }) {
       <div className="toolbar" />
       <Divider />
       <List>
-        <ListItem button key={"Inbox"}>
-          <ListItemIcon>``
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Inbox"} />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        {Object.keys(heatmap.redValues).map(value => (
-          <ListItem button key={value}>
+        {["Home", "About", "Sensor Page", "Data Download"].map(pageName => (
+          <ListItem button key={pageName}>
             <ListItemText
-              primary={value}
-              onClick={() => setTargetValue(value)}
+              primary={pageName}
+              onClick={() => setPage(pageName)}
             />
           </ListItem>
         ))}
       </List>
+      <Divider />
+      {page === "Home" && (
+        <List>
+          {["sensors", ...Object.keys(heatmap.redValues)].map(value => (
+            <ListItem button key={value}>
+              <ListItemText
+                primary={value}
+                onClick={() => setTargetValue(value)}
+              />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </div>
   );
 
@@ -74,7 +78,11 @@ function Sidebar({ setTargetValue }) {
         </Drawer>
       </div>
       <div id="landscape">
-        <Drawer variant="permanent" open>
+        <Drawer
+          variant="permanent"
+          open
+          ModalProps={{ keepMounted: true }}
+        >
           {sidebarContent}
         </Drawer>
       </div>

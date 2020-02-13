@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Map, Sidebar, SensorPage } from "./components";
+import { Map, Sidebar, SensorPage, About } from "./components";
 
 const App = () => {
   // state
@@ -11,6 +11,7 @@ const App = () => {
       <Sidebar setTargetValue={setTargetValue} setPage={setPage} page={page} />
       {page === "Home" && <Map targetValue={targetValue} setPage={setPage} />}
       {page === "SensorPage" && <SensorPage />}
+      {page === "About" && <About />}
     </React.Fragment>
   );
 };

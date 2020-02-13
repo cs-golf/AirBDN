@@ -27,7 +27,7 @@ function Sidebar({ setTargetValue, setPage, page }) {
       <div className="toolbar" />
       <Divider />
       <List>
-        {["Home", "About", "SensorPage"].map(pageName => (
+        {["Home", "About", "Sensor Page", "Data Download"].map(pageName => (
           <ListItem button key={pageName}>
             <ListItemText
               primary={pageName}

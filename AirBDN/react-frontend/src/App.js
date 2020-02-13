@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Map, Sidebar, SensorPage, About, DataDownload } from "./components";
+import { Map, Sidebar, SensorPage, About, Datadownload } from "./components";
 
 const App = () => {
   // state

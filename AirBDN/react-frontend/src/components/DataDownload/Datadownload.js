@@ -14,4 +14,14 @@ export default function Newsletter({ darkMode }) {
       // width: "70%",
       // marginTop: "60px"
     };
+
+    const pageStyle = darkMode
+        ? { ...baseStyle, color: "#FFF" }
+        : { ...baseStyle, color: "#000" };
+
+    return (
+        <div style={pageStyle}>
+            <h1>About Us</h1>
+        </div>
+    );
 }

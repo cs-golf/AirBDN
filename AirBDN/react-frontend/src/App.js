@@ -12,7 +12,7 @@ const App = () => {
       {page === "Home" && <Map targetValue={targetValue} setPage={setPage} />}
       {page === "SensorPage" && <SensorPage />}
       {page === "About" && <About />}
-      {page === "DataDownload" && <Datadownload />}
+     {/*{page === "DataDownload" && <Datadownload />}*/}
     </React.Fragment>
   );
 };

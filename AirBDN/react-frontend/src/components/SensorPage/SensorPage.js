@@ -6,7 +6,7 @@ const data = {
   labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
-      label: "My First dataset",
+      label: "This sensor",
       fill: true,
       lineTension: 0.3,
       backgroundColor: "rgba(75,192,192,0.4)",
@@ -24,7 +24,7 @@ const data = {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: [65, 59, 80, 81, 56, 55, 40] //to be connected to db and fetch wanted data
     }
   ]
 };

@@ -27,7 +27,7 @@ function Sidebar({ setTargetValue, setPage, page }) {
       <div className="toolbar" />
       <Divider />
       <List>
-        {["Home", "About", "Sensor Page", "Data Download"].map(pageName => (
+        {["home", "about", "sensorPage", "dataDownload"].map(pageName => (
           <ListItem button key={pageName}>
             <ListItemText
               primary={pageName}
@@ -37,7 +37,7 @@ function Sidebar({ setTargetValue, setPage, page }) {
         ))}
       </List>
       <Divider />
-      {page === "Home" && (
+      {page === "home" && (
         <List>
           {["sensors", ...Object.keys(heatmap.redValues)].map(value => (
             <ListItem button key={value}>

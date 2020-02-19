@@ -3,34 +3,6 @@ import { Line } from 'react-chartjs-2'
 import './SensorPage.css'
 import axios from 'axios'
 
-<<<<<<< Updated upstream
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      label: "This sensor",
-      fill: true,
-      lineTension: 0.3,
-      backgroundColor: "rgba(75,192,192,0.4)",
-      borderColor: "rgba(75,192,192,1)",
-      //   borderCapStyle: "butt",
-      //   borderDash: [],
-      //   borderDashOffset: 0.0,
-      //   borderJoinStyle: "miter",
-      pointBorderColor: "rgba(75,192,192,1)",
-      pointBackgroundColor: "#fff",
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(75,192,192,1)",
-      pointHoverBorderColor: "rgba(220,220,220,1)",
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40] //to be connected to db and fetch wanted data
-    }
-  ]
-};
-=======
 const SensorPage = ({ sensorId }) => {
 	const [data, setData] = useState({
 		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -50,29 +22,26 @@ const SensorPage = ({ sensorId }) => {
 			}
 		]
 	})
->>>>>>> Stashed changes
 
-	const getReadings = (sensor = 'any', start = 'any', end = 'any') => {
-		let out = axios
+	const getReadings = (sensor = 'any', start = 'any', end = 'any') =>
+		axios
 			.get(`/api/readings/sensor=${sensor}/start=${start}/end=${end}`)
-			.then(resp => {
-				return resp.data
-			})
-		console.log(data)
-		// let filterData = (data, value) => data.filter(reading => reading[value])
-		// console.log(response.data.map(reading => reading.timestamp.$date))
-		// console.log(response.data.map(reading => reading))
-		return out
-	}
+			.then(resp => resp.data)
 
-	const parseReadings = (readings, displayValue) => readings.map(r => console.log(r))
+	const parseReadings = (readings, displayValue = 'pm10') => ({
+		labels: readings.filter(r => r[displayValue]).map(r => r.timestamp.$date),
+		data: readings.filter(r => r[displayValue]).map(r => r[displayValue])
+	})
 
-	// useEffect(() => {
-	// 	parseReadings(getReadings(sensorId, '2020-02-15', '2020-02-16'), "pm10").then(d => {
-	// 		// console.log(d)
-	// 		setData(d)
-	// 	})
-	// }, [])
+	useEffect(() => {
+		getReadings(sensorId, '2020-02-15', '2020-02-16').then(d => {
+			let parsedReadings = parseReadings(d)
+			let newData = data
+			newData.datasets[0].data = parsedReadings.data
+			newData.labels = parsedReadings.labels
+			setData(newData)
+		})
+	}, [sensorId])
 
 	return (
 		<div id='chart'>

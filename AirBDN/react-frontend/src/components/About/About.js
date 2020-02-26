@@ -16,12 +16,17 @@ export default function About({ darkMode }) {
   };
 
   const pageStyle = darkMode
-    ? { ...baseStyle, color: "#FFF" }
-    : { ...baseStyle, color: "#000" };
+    ? { ...baseStyle, color: "#000" }
+    : { ...baseStyle, color: "#FFF" };
 
   return (
     <div style={pageStyle}>
-      <h1>About Us</h1>
+        <h1>About us</h1>
+     
+      <p1>
+      Basic Text which will be changed with the text i am writing on word.
+      </p1>
+        
     </div>
   );
 }

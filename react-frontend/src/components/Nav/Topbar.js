@@ -1,6 +1,6 @@
 import React from 'react'
 import './Topbar.css'
-import { Logo } from '..'
+// import { Logo } from '..'
 import { default as MenuIcon } from './MenuIcon'
 
 export default function Topbar({ setPage, toggleSidebar }) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 
 import L from 'leaflet'
@@ -19,11 +19,10 @@ const initializeMap = () => {
 	}).addTo(window.abdnMap)
 	window.abdnMap.zoomControl.setPosition('topright')
 }
+
+const getInfo = async () => await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
+
 const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
-	// const [responseData, setResponseData] = useState()
-
-	// axios.get(`http://airbdn-api.herokuapp.com/api/info`).then(resp => setResponseData(resp.data))
-
 	const createSensorIcon = sensor => {
 		let tooltipText = `<h3>${sensor._id}</h3><p>${sensor.recent_values[mapDisplayValue]}</p>`
 		return L.circle([sensor['lat'], sensor['lon']], sensorIcons.config)
@@ -39,11 +38,10 @@ const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
 			window.sensorLayer.addTo(window.abdnMap)
 		} else {
 			window.sensorLayer = L.layerGroup().addTo(window.abdnMap)
-			let responseData = await axios
-				.get(`http://airbdn-api.herokuapp.com/api/info`)
-				.then(r => r.data)
 
-			responseData
+			let response = await getInfo()
+
+			response.data
 				.map(sensor => createSensorIcon(sensor))
 				.map(icon => window.sensorLayer.addLayer(icon))
 		}
@@ -66,11 +64,9 @@ const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
 				}))
 		})
 
-		let responseData = await axios
-			.get(`http://airbdn-api.herokuapp.com/api/info`)
-			.then(r => r.data)
+		let response = await getInfo()
 
-		window.heatmapLayer.setData(parseMapData(responseData, displayValue))
+		window.heatmapLayer.setData(parseMapData(response.data, displayValue))
 	}
 
 	const setMapOverlay = displayValue => {

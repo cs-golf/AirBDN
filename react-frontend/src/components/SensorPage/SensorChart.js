@@ -14,7 +14,9 @@ export default function SensorChart({
 
 	const getReadings = (sensor = 'any', start = 'any', end = 'any') =>
 		axios
-			.get(`/api/readings/sensor=${sensor}/start=${start}/end=${end}`)
+			.get(
+				`https://airbdn-api.herokuapp.com/api/readings/sensor=${sensor}/start=${start}/end=${end}`
+			)
 			.then(resp => resp.data)
 
 	const parseReadings = (readings, displayValue, oneInN) => ({

@@ -1,5 +1,4 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { heatmap } from '../../config.json'
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
 
@@ -17,9 +16,6 @@ function useWindowSize() {
 	}, [])
 	return size
 }
-
-console.log(document.getElementById('pageContent'))
-// .addEventListener('click', () => console.log('e'))
 
 export default ({ setMapDisplayValue, page, setPage, sidebarIsOpen, toggleSidebar }) => {
 	const [width, height] = useWindowSize()

@@ -2,7 +2,7 @@
   "name": "react-frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://airbdn-api.herokuapp.com",
+  "proxy": "https://airbdn-api.herokuapp.com",
   "dependencies": {
     "@material/react-drawer": "^0.15.0",
     "@testing-library/jest-dom": "^4.2.4",

@@ -1,0 +1,14 @@
+@import '../../App.css';
+
+/* hiding of sidebar and app bar, landscape vs portrait*/
+#landscape {
+  display: none;
+}
+@media (orientation: landscape) {
+  #portrait {
+    display: none;
+  }
+  #landscape {
+    display: block;
+  }
+}

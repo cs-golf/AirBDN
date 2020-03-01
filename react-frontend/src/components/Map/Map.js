@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import L from 'leaflet'
@@ -17,11 +17,15 @@ const initializeMap = () => {
 		maxZoom: 18,
 		minZoom: 11
 	}).addTo(window.abdnMap)
+	window.abdnMap.zoomControl.setPosition('topright')
 }
+const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
+	// const [responseData, setResponseData] = useState()
 
-const ApiMap = ({ targetValue, setPage, setSensorId }) => {
+	// axios.get(`http://airbdn-api.herokuapp.com/api/info`).then(resp => setResponseData(resp.data))
+
 	const createSensorIcon = sensor => {
-		let tooltipText = `<h3>${sensor._id}</h3><p>${sensor.recent_values}</p>`
+		let tooltipText = `<h3>${sensor._id}</h3><p>${sensor.recent_values[mapDisplayValue]}</p>`
 		return L.circle([sensor['lat'], sensor['lon']], sensorIcons.config)
 			.bindTooltip(tooltipText, { direction: 'top' })
 			.on('click', e => {
@@ -30,21 +34,27 @@ const ApiMap = ({ targetValue, setPage, setSensorId }) => {
 			})
 	}
 
-	const updateSensorLayer = () => {
-		window.sensorLayer
-			? window.sensorLayer.addTo(window.abdnMap)
-			: (window.sensorLayer = L.layerGroup().addTo(window.abdnMap))
-		axios.get(`/api/info`).then(resp => {
-			resp.data
+	const updateSensorLayer = async () => {
+		if (window.sensorLayer) {
+			window.sensorLayer.addTo(window.abdnMap)
+		} else {
+			window.sensorLayer = L.layerGroup().addTo(window.abdnMap)
+			let responseData = await axios
+				.get(`http://airbdn-api.herokuapp.com/api/info`)
+				.then(r => r.data)
+
+			responseData
 				.map(sensor => createSensorIcon(sensor))
 				.map(icon => window.sensorLayer.addLayer(icon))
-		})
+		}
 	}
 
-	const updateheatmapLayer = displayValue => {
+	const updateheatmapLayer = async displayValue => {
 		window.heatmapLayer
 			? window.heatmapLayer.addTo(window.abdnMap)
 			: (window.heatmapLayer = new HeatmapOverlay(heatmap.config))
+
+		window.heatmapLayer.setData({ data: [] })
 
 		const parseMapData = (data, displayValue) => ({
 			data: data
@@ -56,9 +66,11 @@ const ApiMap = ({ targetValue, setPage, setSensorId }) => {
 				}))
 		})
 
-		axios.get(`/api/info`).then(resp => {
-			window.heatmapLayer.setData(parseMapData(resp.data, displayValue))
-		})
+		let responseData = await axios
+			.get(`http://airbdn-api.herokuapp.com/api/info`)
+			.then(r => r.data)
+
+		window.heatmapLayer.setData(parseMapData(responseData, displayValue))
 	}
 
 	const setMapOverlay = displayValue => {
@@ -75,12 +87,12 @@ const ApiMap = ({ targetValue, setPage, setSensorId }) => {
 	// map has to be initialized (div with id='mapid' has to be 'tiled') after the page loads - hence useEffect()
 	useEffect(() => {
 		initializeMap()
-		setMapOverlay(targetValue)
+		setMapOverlay(mapDisplayValue)
 	}, [])
 
-	// runs whenever targetValue changes
+	// runs whenever mapDisplayValue changes
 	// refreshes values from API and changes Overlay displayed on map
-	useEffect(() => setMapOverlay(targetValue), [targetValue])
+	useEffect(() => setMapOverlay(mapDisplayValue), [mapDisplayValue])
 
 	return <div id='mapid' />
 }

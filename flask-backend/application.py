@@ -1,4 +1,5 @@
 from flask import Flask, Response
+from flask_cors import CORS
 from bson.json_util import dumps
 from dateutil.parser import parse
 
@@ -8,6 +9,7 @@ from config import luftdaten_area_box
 
 update_thread.start()
 application = Flask(__name__)
+CORS(application)
 
 
 def get_info():
@@ -30,6 +32,11 @@ def get_readings(sensor="any", start="any", end="any"):
     return Response(output,  mimetype='application/json')
 
 
+def index():
+    return '<h1>TUTORIAL FOR API HERE</h1><p>/api/info</p><p>/api/readings/sensor=<sensor>/start=<start>/end=<end></p>'
+
+
+application.add_url_rule('/', "index", index)
 application.add_url_rule('/api/info', 'info', get_info)
 application.add_url_rule('/api/readings/sensor=<sensor>/start=<start>/end=<end>',
                          'readings', get_readings)

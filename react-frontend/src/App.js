@@ -21,7 +21,11 @@ const App = () => {
 			/>
 			<div onClick={() => toggleSidebar(false)}>
 				{page === 'home' && (
-					<Map mapDisplayValue={mapDisplayValue} setPage={setPage} setSensorId={setSensorId} />
+					<Map
+						mapDisplayValue={mapDisplayValue}
+						setPage={setPage}
+						setSensorId={setSensorId}
+					/>
 				)}
 				{page === 'sensorPage' && <SensorPage sensorId={sensorId} />}
 				{page === 'about' && <About />}

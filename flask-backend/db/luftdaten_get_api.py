@@ -3,7 +3,6 @@ import json
 import requests
 # from pprint import pprint
 
-from db.AQI_calc import get_aqi
 from db.mongo import db_insert, db_query, db_info, db_readings
 from db.query_scripts import floatify
 from config import luftdaten_dictionary
@@ -39,9 +38,6 @@ def mongo_update_info(box):
         for reading in entry["sensordatavalues"]:
             db_insert(db_info, {"_id": entry['location']['id']},
                       {f"recent_values.{luftdaten_dictionary[reading['value_type']]}":  floatify(reading['value'])})
-            if reading['value_type'] == "P1" or reading['value_type'] == "P2":
-                db_insert(db_info, {"_id": entry['location']['id']},
-                          {f"recent_values.{luftdaten_dictionary[reading['value_type']]}_aqi":  get_aqi(floatify(reading['value']), reading['value_type'])})
 
     def db_insert_readings(entry):
         for reading in entry['sensordatavalues']:

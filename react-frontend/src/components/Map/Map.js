@@ -8,8 +8,6 @@ import { heatmap, sensorIcons } from '../../config.json'
 import './Map.css'
 
 const mapStyle = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
-// const mapStyle = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
-// const mapStyle = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
 
 const initializeMap = () => {
 	window.abdnMap = L.map('mapid').setView([57.148, -2.11], 13)
@@ -22,7 +20,7 @@ const initializeMap = () => {
 
 const getInfo = async () => await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
 
-const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
+export default ({ mapDisplayValue, setPage, setSensorId }) => {
 	const createSensorIcon = sensor => {
 		let tooltipText = `<h3>${sensor._id}</h3><p>${sensor.recent_values[mapDisplayValue]}</p>`
 		return L.circle([sensor['lat'], sensor['lon']], sensorIcons.config)
@@ -50,7 +48,7 @@ const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
 	const updateheatmapLayer = async displayValue => {
 		window.heatmapLayer
 			? window.heatmapLayer.addTo(window.abdnMap)
-			: (window.heatmapLayer = new HeatmapOverlay(heatmap.config))
+			: (window.heatmapLayer = new HeatmapOverlay(heatmap.config).addTo(window.abdnMap))
 
 		window.heatmapLayer.setData({ data: [] })
 
@@ -92,5 +90,3 @@ const ApiMap = ({ mapDisplayValue, setPage, setSensorId }) => {
 
 	return <div id='mapid' />
 }
-
-export default ApiMap

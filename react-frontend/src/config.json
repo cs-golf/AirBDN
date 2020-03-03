@@ -22,13 +22,12 @@
 			"valueField": "value"
 		},
 		"redValues": {
+			"aqi": 500,
 			"pm25": 33,
 			"pm10": 33,
-			"pm25_aqi": 500,
-			"pm10_aqi": 500,
-			"temperature": 20,
-			"pressure": 33,
-			"humidity": 33
+			"temperature": 30,
+			"pressure": 200000,
+			"humidity": 200
 		}
 	},
 	"display": {
@@ -36,16 +35,15 @@
 			"home": "Home",
 			"about": "About Us",
 			"help": "How you can help"
-    },
-    "values": {
-      "sensors": "Sensors",
-      "pm25": "PM 2.5",
-      "pm10": "PM 10",
-      "pm25_aqi": "PM 2.5 AQI",
-      "pm10_aqi": "PM 10 AQI",
+		},
+		"values": {
+			"sensors": "Sensors",
+			"aqi": "Air Quality Index",
+			"pm25": "PM 2.5",
+			"pm10": "PM 10",
 			"temperature": "Temperature",
 			"pressure": "Pressure",
 			"humidity": "Humidity"
-    }
+		}
 	}
 }

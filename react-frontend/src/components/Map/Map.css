@@ -1,3 +1,5 @@
+@import '../../App.css';
+
 #mapid {
   height: calc(100vh - 50px);
   margin-top: 50px;
@@ -9,3 +11,32 @@
     margin-top: 0px;
   }
 }
+
+.mapTooltip {
+  font-size: 0.9rem;
+  opacity: 1.0;
+  background: var(--bg);
+  color: var(--text);
+  border: 0px;
+  border-radius: 7px;
+}
+
+.tooltipTitle {
+  margin-top: -3px;
+  font-size: 1.1em;
+  font-weight: 750;
+  text-align: center;
+}
+
+.tooltipValueList {
+  font-weight: 500;
+  margin-top: 5px;
+  margin-left: 5px;
+  list-style-type: none;
+}
+
+/* .leaflet-tooltip-left.mapTooltip::before {
+}
+.leaflet-tooltip-right.mapTooltip::before {
+} */
+

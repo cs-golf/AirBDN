@@ -9,7 +9,7 @@
   text-shadow: 1px 1px var(--accent);
 }
 
-img {
+.logoIcon {
   margin: 7px;
   max-height: 1em;
   max-width: 33%;

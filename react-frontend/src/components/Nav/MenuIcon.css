@@ -1,5 +1,5 @@
 @import '../../App.css';
 
-path {
+.MenuIconPath {
   fill: var(--text);
 }

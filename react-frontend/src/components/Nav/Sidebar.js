@@ -8,7 +8,7 @@ function Sidebar({ setMapDisplayValue, page, setPage }) {
 	const pageNav = (
 		<ul className='pageNav'>
 			{Object.keys(display.pages).map(key => (
-				<li key={key} onClick={() => setPage(key)}>
+				<li className="listItem" key={key} onClick={() => setPage(key)}>
 					{display.pages[key]}
 				</li>
 			))}
@@ -18,7 +18,7 @@ function Sidebar({ setMapDisplayValue, page, setPage }) {
 	const mapValueNav = (
 		<ul className='mapValueNav'>
 			{Object.keys(display.values).map(key => (
-				<li key={key} onClick={() => setMapDisplayValue(key)}>
+				<li className="listItem" key={key} onClick={() => setMapDisplayValue(key)}>
 					{display.values[key]}
 				</li>
 			))}

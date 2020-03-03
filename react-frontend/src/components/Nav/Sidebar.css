@@ -43,7 +43,7 @@
   font-weight: 450;
 }
 
-li {
+.listItem {
   font-size: 1.2rem;
   padding-left: 20px;
   padding-top: 5px;
@@ -51,7 +51,7 @@ li {
   color: var(--text);
 }
 
-li:hover {
+.listItem:hover {
   cursor: pointer;
   background-color: var(--bg-h);
 }

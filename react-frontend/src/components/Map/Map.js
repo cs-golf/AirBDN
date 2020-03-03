@@ -4,12 +4,17 @@ import axios from 'axios'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import HeatmapOverlay from 'heatmap.js/plugins/leaflet-heatmap/leaflet-heatmap'
-import { heatmap, sensorIcons } from '../../config.json'
+import { heatmap, sensorIcons, display } from '../../config.json'
 import './Map.css'
 
-const mapStyle = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+const getInfo = async () => {
+	let response = await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
+	return response.data
+}
 
+// Tiles the <div> with id='mapid', sets zoom & coordinates
 const initializeMap = () => {
+	const mapStyle = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
 	window.abdnMap = L.map('mapid').setView([57.148, -2.11], 13)
 	L.tileLayer(mapStyle, {
 		maxZoom: 18,
@@ -18,13 +23,26 @@ const initializeMap = () => {
 	window.abdnMap.zoomControl.setPosition('topright')
 }
 
-const getInfo = async () => await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
-
 export default ({ mapDisplayValue, setPage, setSensorId }) => {
+	const createTooltipText = sensor => {
+		let tooltip = `
+			<p class="tooltipTitle">Sensor ID: ${sensor._id}</p>
+			<p class="tooltipTitle">( ${sensor.lat}, ${sensor.lon} )</p>
+		`
+		tooltip += `<ul class="tooltipValueList">`
+		for (let key in sensor.recent_values) {
+			if (key !== 'pressure_at_sealevel') {
+				tooltip += `<li class="tooltipValue">${display.values[key]}: ${sensor.recent_values[key]}</li>`
+			}
+		}
+		tooltip += `</ul>`
+		return tooltip
+	}
+
 	const createSensorIcon = sensor => {
-		let tooltipText = `<h3>${sensor._id}</h3><p>${sensor.recent_values[mapDisplayValue]}</p>`
+		let tooltip = createTooltipText(sensor)
 		return L.circle([sensor['lat'], sensor['lon']], sensorIcons.config)
-			.bindTooltip(tooltipText, { direction: 'top' })
+			.bindTooltip(tooltip, { className: 'mapTooltip', direction: 'top' })
 			.on('click', e => {
 				setPage('sensorPage')
 				setSensorId(sensor._id)
@@ -37,9 +55,9 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 		} else {
 			window.sensorLayer = L.layerGroup().addTo(window.abdnMap)
 
-			let response = await getInfo()
+			let infoData = await getInfo()
 
-			response.data
+			infoData
 				.map(sensor => createSensorIcon(sensor))
 				.map(icon => window.sensorLayer.addLayer(icon))
 		}
@@ -62,9 +80,9 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 				}))
 		})
 
-		let response = await getInfo()
+		let infoData = await getInfo()
 
-		window.heatmapLayer.setData(parseMapData(response.data, displayValue))
+		window.heatmapLayer.setData(parseMapData(infoData, displayValue))
 	}
 
 	const setMapOverlay = displayValue => {

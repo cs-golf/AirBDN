@@ -4,7 +4,7 @@ import requests
 # from pprint import pprint
 
 from db.mongo import db_insert, db_query, db_info, db_readings
-from db.query_scripts import floatify
+from db.query_scripts import floatify, floor_date
 from config import luftdaten_dictionary
 
 
@@ -41,7 +41,7 @@ def mongo_update_info(box):
 
     def db_insert_readings(entry):
         for reading in entry['sensordatavalues']:
-            db_insert(db_readings, {"location_id": entry['location']['id'], "timestamp": parse(entry['timestamp'])},
+            db_insert(db_readings, {"location_id": entry['location']['id'], "timestamp": floor_date(parse(entry['timestamp']))},
                       {luftdaten_dictionary[reading['value_type']]: floatify(reading['value'])})
 
     raw_info = get_raw_info(box)

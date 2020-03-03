@@ -1,4 +1,6 @@
 from math import isnan
+from datetime import datetime
+
 
 def floatify(value):
     # converts "{number}" to float
@@ -12,3 +14,9 @@ def floatify(value):
             return floatified
     except:
         return value
+
+
+def floor_date(date, period_in_s=300):
+    ts = datetime.timestamp(date)
+    new_ts = ts - (ts % 300)
+    return(datetime.fromtimestamp(new_ts))

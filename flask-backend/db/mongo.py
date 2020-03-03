@@ -1,10 +1,9 @@
 from pymongo import MongoClient
 
-try:
-    from SECRET import uri
-except ImportError:
-    uri = "mongodb://localhost:27017/"
-
+# try:
+#     from SECRET import uri
+# except ImportError:
+uri = "mongodb://localhost:27017/"
 
 db = MongoClient(uri)["airbdn"]
 

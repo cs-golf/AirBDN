@@ -1,6 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 /.vscode
 
+.firebaserc
+firebase.json
+/flask-backend/runtime.txt
+/flask-backend/SECRET.py
+/flask-backend/Procfile
+temp_archive_script.py
+
 # dependencies
 /react-frontend/node_modules
 /react-frontend/.pnp
@@ -19,9 +26,9 @@
 .env.test.local
 .env.production.local
 
-/react-frontendnpm-debug.log*
-/react-frontendyarn-debug.log*
-/react-frontendyarn-error.log*
+/react-frontend/npm-debug.log*
+/react-frontend/yarn-debug.log*
+/react-frontend/yarn-error.log*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -152,9 +159,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-Procfile
-runtime.txt
-SECRET.py
-.firebaserc
-firebase.json

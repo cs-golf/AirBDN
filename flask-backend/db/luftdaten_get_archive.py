@@ -6,8 +6,8 @@ import requests
 from db.mongo import db_insert, db_query, db_info, db_readings
 from db.query_scripts import floatify
 from db.luftdaten_get_api import get_raw_info
+from db.query_scripts import floor_date
 from config import luftdaten_dictionary
-# from pprint import pprint
 
 
 def get_raw_readings(sensor_name_id, date):
@@ -36,7 +36,7 @@ def mongo_update_readings_day(sensor_name_id, day):
         for i, key in enumerate(headings[6:]):
             i += 6
             if row[i] and row[i] != 'nan':
-                db_insert(db_readings, {"location_id": int(row[2]), "timestamp": parse(row[5])},
+                db_insert(db_readings, {"location_id": int(row[2]), "timestamp": floor_date(parse(row[5]))},
                           {f"{luftdaten_dictionary[key]}": floatify(row[i])})
 
     # raw_readings = [[headings],[row],[row]...]
@@ -78,15 +78,3 @@ def mongo_mass_update_readings(box, start_date, no_of_days=1):
     print("> Finished mass update.")
 
     return(list(db_query(db_readings)))
-
-
-def main():
-    # aberdeen_box = "57.23,-2.36,57.07,-2.04"
-    # smaller_test_box = "57.17,-2.13,57.16,-2.11"
-
-    # mongo_mass_update_readings("57.17,-2.13,57.16,-2.11", "2019-12-1", 1)
-    return()
-
-
-if __name__ == '__main__':
-    main()

@@ -6,6 +6,8 @@ import 'leaflet/dist/leaflet.css'
 import HeatmapOverlay from 'heatmap.js/plugins/leaflet-heatmap/leaflet-heatmap'
 import { heatmap, sensorIcons, display } from '../../config.json'
 import './Map.css'
+import aqiScale from './aqiScale.png'
+import { rawToAqi } from '@shootismoke/aqi'
 
 const getInfo = async () => {
 	let response = await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
@@ -25,10 +27,14 @@ const initializeMap = () => {
 
 export default ({ mapDisplayValue, setPage, setSensorId }) => {
 	const createTooltipText = sensor => {
-		let tooltip = `
+		let tooltip
+		sensor.display_name
+			? (tooltip = `
+			<div class="tooltipTitle">${sensor.display_name}</div>
+		`)
+			: (tooltip = `
 			<p class="tooltipTitle">Sensor ID: ${sensor._id}</p>
-			<p class="tooltipTitle">( ${sensor.lat}, ${sensor.lon} )</p>
-		`
+		`)
 		tooltip += `<ul class="tooltipValueList">`
 		for (let key in sensor.recent_values) {
 			if (key !== 'pressure_at_sealevel') {
@@ -63,25 +69,56 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 		}
 	}
 
-	const updateheatmapLayer = async displayValue => {
+	const updateHeatmapLayer = async displayValue => {
 		window.heatmapLayer
 			? window.heatmapLayer.addTo(window.abdnMap)
 			: (window.heatmapLayer = new HeatmapOverlay(heatmap.config).addTo(window.abdnMap))
 
 		window.heatmapLayer.setData({ data: [] })
 
-		const parseMapData = (data, displayValue) => ({
-			data: data
-				.filter(sensor => sensor['recent_values'][displayValue])
-				.map(sensor => ({
-					lat: sensor['lat'],
-					lng: sensor['lon'],
-					value: sensor.recent_values[displayValue] / heatmap.redValues[displayValue]
-				}))
-		})
+		const parseMapData = (data, displayValue) =>
+			displayValue === 'aqi'
+				? {
+						data: data
+							.filter(
+								sensor =>
+									sensor['recent_values']['pm10'] ||
+									sensor['recent_values']['pm25']
+							)
+							.map(sensor => ({
+								lat: sensor['lat'],
+								lng: sensor['lon'],
+								value:
+									Math.max(
+										sensor.recent_values['pm10'],
+										sensor.recent_values['pm25']
+									) / heatmap.redValues.aqi
+							}))
+				  }
+				: {
+						data: data
+							.filter(sensor => sensor['recent_values'][displayValue])
+							.map(sensor => ({
+								lat: sensor['lat'],
+								lng: sensor['lon'],
+								value:
+									sensor.recent_values[displayValue] /
+									heatmap.redValues[displayValue]
+							}))
+				  }
 
 		let infoData = await getInfo()
 
+		// if (displayValue === 'aqi') {
+		// 	console.log('adding image')
+		// 	L.imageOverlay(
+		// 		'https://github.com/cs-golf/AirBDN/blob/master/react-frontend/src/components/Map/aqiScale.png',
+		// 		[
+		// 			[57.141, -2.103],
+		// 			[57.241, -2.203]
+		// 		]
+		// 	).addTo(window.abdnMap)
+		// }
 		window.heatmapLayer.setData(parseMapData(infoData, displayValue))
 	}
 
@@ -91,7 +128,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 			updateSensorLayer()
 		} else {
 			if (window.sensorLayer) window.sensorLayer.removeFrom(window.abdnMap)
-			updateheatmapLayer(displayValue)
+			updateHeatmapLayer(displayValue)
 		}
 	}
 
@@ -106,5 +143,20 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 	// refreshes values from API and changes Overlay displayed on map
 	useEffect(() => setMapOverlay(mapDisplayValue), [mapDisplayValue])
 
-	return <div id='mapid' />
+	console.log(mapDisplayValue)
+
+	return (
+		<React.Fragment>
+			<div id='mapid' />
+			{mapDisplayValue === 'aqi' && (
+				<img
+					className='topImage'
+					src={aqiScale}
+					alt='aqi_chart'
+					height='870'
+					width='1000'
+				/>
+			)}
+		</React.Fragment>
+	)
 }

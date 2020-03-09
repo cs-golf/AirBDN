@@ -21,3 +21,9 @@
 #menu:hover {
   cursor: pointer;
 }
+
+.centerLogo {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}

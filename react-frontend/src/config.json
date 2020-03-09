@@ -23,8 +23,6 @@
 		},
 		"redValues": {
 			"aqi": 500,
-			"pm25": 33,
-			"pm10": 33,
 			"temperature": 30,
 			"pressure": 200000,
 			"humidity": 200
@@ -39,8 +37,6 @@
 		"values": {
 			"sensors": "Sensors",
 			"aqi": "Air Quality Index",
-			"pm25": "PM 2.5",
-			"pm10": "PM 10",
 			"temperature": "Temperature",
 			"pressure": "Pressure",
 			"humidity": "Humidity"

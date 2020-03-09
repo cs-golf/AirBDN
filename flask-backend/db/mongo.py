@@ -20,4 +20,4 @@ def db_insert(target_db, filter_dict, insert_dict):
 
 
 def db_query(target_db, filter_dict={}):
-    return target_db.find(filter_dict)
+    return target_db.find(filter_dict).sort([("timestamp", -1)])

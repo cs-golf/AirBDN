@@ -1,11 +1,20 @@
 from dateutil.parser import parse
 import json
 import requests
-# from pprint import pprint
+from pprint import pprint
+import urllib3
+from re import split
 
 from db.mongo import db_insert, db_query, db_info, db_readings
 from db.query_scripts import floatify, floor_date
 from config import luftdaten_dictionary
+
+
+def reverse_geocode(lat, lon):
+    resp = requests.get(
+        f"https://eu1.locationiq.com/v1/reverse.php?key=8d93b743dac638&lat={lat}&lon={lon}&format=json").json()
+    addr = split(', ', resp['display_name'])
+    return(f"{addr[0]}, {addr[1]}")
 
 
 def get_raw_info(box):
@@ -30,6 +39,8 @@ def mongo_update_info(box):
     # updates db_info = [ {'_id': '11991', 'lat': 57.15, 'lon': -2.134, 'sensors': {'DHT22': 23629...}}... ]
     # returns db_info
     def db_insert_info(entry):
+        # reverse_geocode(floatify(entry['location']['latitude']), floatify(
+            # entry['location']['longitude']))
         db_insert(db_info, {"_id": entry['location']['id']},
                   {"lat": round(floatify(entry['location']['latitude']), 3),
                    "lon": round(floatify(entry['location']['longitude']), 3),
@@ -38,6 +49,11 @@ def mongo_update_info(box):
         for reading in entry["sensordatavalues"]:
             db_insert(db_info, {"_id": entry['location']['id']},
                       {f"recent_values.{luftdaten_dictionary[reading['value_type']]}":  floatify(reading['value'])})
+
+        reading = list(db_query(db_info, {"_id": entry['location']['id']}))[0]
+        if "display_name" not in reading:
+            db_insert(db_info, {"_id": entry['location']['id']},
+                      {"display_name": reverse_geocode(reading["lat"], reading["lon"])})
 
     def db_insert_readings(entry):
         for reading in entry['sensordatavalues']:

@@ -1,20 +1,13 @@
 @import '../../App.css';
 
 #mapid {
-  height: calc(100vh - 50px);
-  margin-top: 50px;
-}
-@media (orientation: landscape) {
-  #mapid {
-    height: 100vh;
-    margin-left: 240px;
-    margin-top: 0px;
-  }
+  height: 100%;
+  width: 100%;
 }
 
 .mapTooltip {
   font-size: 0.9rem;
-  opacity: 1.0;
+  opacity: 1;
   background: var(--bg);
   color: var(--text);
   border: 0px;
@@ -39,4 +32,3 @@
 }
 .leaflet-tooltip-right.mapTooltip::before {
 } */
-

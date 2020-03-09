@@ -5,7 +5,7 @@
   --bg2-h: #999;
   --bg-shadow: #aaa;
   --text: #222;
-  --accent: #1A7AA6;
+  --accent: #1a7aa6;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -15,5 +15,17 @@
     --bg2-h: #888;
     --bg-shadow: #000;
     --text: #ddd;
+  }
+}
+
+.pageContent {
+  height: calc(100vh - 50px);
+  margin-top: 50px;
+}
+@media (orientation: landscape) {
+  .pageContent {
+    height: 100vh;
+    margin-left: 240px;
+    margin-top: 0px;
   }
 }

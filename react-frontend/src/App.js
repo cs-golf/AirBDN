@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Map, Nav, SensorPage, About } from './components'
+import { Map, Nav, ChartPage, About } from './components'
+import './App.css'
 
 const App = () => {
 	// state
@@ -19,7 +20,7 @@ const App = () => {
 				setPage={setPage}
 				setMapDisplayValue={setMapDisplayValue}
 			/>
-			<div onClick={() => toggleSidebar(false)}>
+			<div className={'pageContent'} onClick={() => toggleSidebar(false)}>
 				{page === 'home' && (
 					<Map
 						mapDisplayValue={mapDisplayValue}
@@ -27,7 +28,7 @@ const App = () => {
 						setSensorId={setSensorId}
 					/>
 				)}
-				{page === 'sensorPage' && <SensorPage sensorId={sensorId} />}
+				{page === 'sensorPage' && <ChartPage sensorId={sensorId} />}
 				{page === 'about' && <About />}
 			</div>
 		</React.Fragment>

@@ -32,11 +32,19 @@
   list-style-type: none;
 }
 
+.imgContainer {
+}
+
 .topImage {
+  display: block;
+  width: 100%;
+  height: auto;
   position: absolute;
   z-index: 999;
   bottom: 30px;
   right: 10px;
-  height: 20vh;
-  width: 5vw;
+  max-width: 15vw;
+  max-height: 45vh;
+  width: auto;
+  height: auto;
 }

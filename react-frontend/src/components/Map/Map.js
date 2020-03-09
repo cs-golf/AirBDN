@@ -149,13 +149,15 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 		<React.Fragment>
 			<div id='mapid' />
 			{mapDisplayValue === 'aqi' && (
-				<img
-					className='topImage'
-					src={aqiScale}
-					alt='aqi_chart'
-					height='870'
-					width='1000'
-				/>
+				<div className='imgContainer'>
+					<img
+						className='topImage'
+						src={aqiScale}
+						alt='aqi_chart'
+						height='870'
+						width='1000'
+					/>
+				</div>
 			)}
 		</React.Fragment>
 	)

@@ -1,7 +1,7 @@
 .aboutPage {
     text-align: center;
     font-size: 1em;
-    color: #FFF;
     margin-left: 10vw;
     margin-right: 10vw;
+    color: var(--text)
 }

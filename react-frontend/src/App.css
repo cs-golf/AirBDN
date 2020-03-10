@@ -6,6 +6,7 @@
   --bg-shadow: #aaa;
   --text: #222;
   --accent: #1a7aa6;
+  --accent-h: #338fb9;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -21,6 +22,8 @@
 .pageContent {
   height: calc(100vh - 50px);
   margin-top: 50px;
+  text-align: center;
+  color: var(--text)
 }
 @media (orientation: landscape) {
   .pageContent {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Map, Nav, ChartPage, About } from './components'
+import { Map, Nav, ChartPage, About, HelpPage } from './components'
 import './App.css'
 
 const App = () => {
@@ -30,6 +30,7 @@ const App = () => {
 				)}
 				{page === 'sensorPage' && <ChartPage sensorId={sensorId} />}
 				{page === 'about' && <About />}
+				{page === 'help' && <HelpPage />}
 			</div>
 		</React.Fragment>
 	)

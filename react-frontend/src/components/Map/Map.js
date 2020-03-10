@@ -38,7 +38,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 		tooltip += `<ul class="tooltipValueList">`
 		for (let key in sensor.recent_values) {
 			if (key !== 'pressure_at_sealevel') {
-				tooltip += `<li class="tooltipValue">${display.values[key]}: ${sensor.recent_values[key]}</li>`
+				tooltip += `<li class="tooltipValue">${display.tooltips[key]}: ${sensor.recent_values[key]}</li>`
 			}
 		}
 		tooltip += `</ul>`

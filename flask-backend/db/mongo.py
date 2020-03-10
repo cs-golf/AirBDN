@@ -9,6 +9,7 @@ db = MongoClient(uri)["airbdn"]
 
 db_info = db.info
 db_readings = db.readings
+db_contact = db.contact
 
 
 def db_insert(target_db, filter_dict, insert_dict):

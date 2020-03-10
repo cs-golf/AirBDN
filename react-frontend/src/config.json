@@ -40,6 +40,13 @@
 			"temperature": "Temperature",
 			"pressure": "Pressure",
 			"humidity": "Humidity"
+		},
+		"tooltips": {
+			"pm25": "PM 2.5",
+			"pm10": "PM 10",
+			"temperature": "Temperature",
+			"pressure": "Pressure",
+			"humidity": "Humidity"
 		}
 	}
 }

@@ -1,0 +1,36 @@
+import React from 'react'
+import './Form.css'
+import axios from 'axios'
+
+export default function Form() {
+	let email
+	let number
+	return (
+		<div className={'form'}>
+			<div className={'textArea'}>
+				<input
+					value={email}
+					onChange={e => (email = e.target.value)}
+					className={'textBox'}
+					placeholder={'Email'}
+				/>
+				<input
+					value={number}
+					onChange={e => (number = e.target.value)}
+					className={'textBox'}
+					placeholder={'Phone Number'}
+				/>
+			</div>
+			<button
+				onClick={() => {
+					axios.post(`http://127.0.0.1:1111/contact?email=${email}&number=${number})`)
+					email = ''
+					number = ''
+				}}
+				className={'submitButton'}
+			>
+				Submit
+			</button>
+		</div>
+	)
+}

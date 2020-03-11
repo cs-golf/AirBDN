@@ -1,16 +1,19 @@
+import datetime
+import time
+
 from dateutil.parser import parse
 import json
 import requests
 # from pprint import pprint
 
-from query_scripts import floatify, floor_date
+from query_scripts import floatify, floor_date, floor_date_2
 from config import luftdaten_dictionary
 from mongo import db_insert, db_query, db_info, db_readings
 from pymongo import MongoClient
 
 from bs4 import BeautifulSoup
 from bson.json_util import dumps
-
+import pandas as pd
 
 # class DatabaseInterface:
 #     def __init__(self):
@@ -54,20 +57,20 @@ class SensorDataHandler:
         self.__data = dumps(db_query(db_info))
 
 
-        print(self.__data)
+        print("\n correct data dump",self.__data)
 
 
-    def insert_info(self, entry):
+    def insert_info(self, particle_entry, weather_entry):
 
 
-        db_insert(db_info, {"_id": entry['location']['id']},
-                  {"lat": round(floatify(entry['location']['latitude']), 3),
-                   "lon": round(floatify(entry['location']['longitude']), 3),
-                   f"sensors.{entry['sensor']['sensor_type']['name']}": entry['sensor']['id']})
+        db_insert(db_info, {"_id": particle_entry['location']['id']},
+                  {"lat": round(floatify(particle_entry['location']['latitude']), 3),
+                   "lon": round(floatify(particle_entry['location']['longitude']), 3),
+                   f"sensors.{particle_entry['sensor']['sensor_type']['name']}": particle_entry['sensor']['id']})
 
-        for reading in entry["sensordatavalues"]:
+        for reading in particle_entry["sensordatavalues"]:
             #print(reading)
-            db_insert(db_info, {"_id": entry['location']['id']},
+            db_insert(db_info, {"_id": particle_entry['location']['id']},
                       {f"recent_values.{luftdaten_dictionary[reading['value_type']]}": floatify(reading['value'])})
 
             # if reading['value_type'] == "P1":
@@ -75,8 +78,8 @@ class SensorDataHandler:
             #         f"recent_values.norm_{luftdaten_dictionary[reading['value_type']]}": round(
             #             float(self.normalise_pm10(floatify(reading['value']), self.__humidity)), 2)})
 
-        if entry['sensor']['sensor_type']['name'] == "DHT22":
-            db_insert(db_info, {"_id": entry['location']['id']}, {"recent_values.corr_humidity": self.__humidity})
+        if particle_entry['sensor']['sensor_type']['name'] == "DHT22":
+            db_insert(db_info, {"_id": particle_entry['location']['id']}, {"recent_values.corr_humidity": self.__humidity})
 
     # for each reading inset into the readings database
     @staticmethod
@@ -87,34 +90,42 @@ class SensorDataHandler:
                       {luftdaten_dictionary[reading['value_type']]: floatify(reading['value'])})
 
             #print(floor_date(parse(entry['timestamp'])))
-    # if data exists insert each entry in database
+
+
+
     def mongo_update_info(self):
         if self.__data:
-            paired_sensors = []
+            paired_entry = []
 
-            # weather_sensor = None
-            # particle_sensor = None
-
+            # for each entry in data pair the weather sensor with the particle sensor then add it to the paired entry so is not looped over again
             for entry in self.__data:
+                if entry['sensor']['sensor_type']['name'] == "SDS011" and entry['id'] not in paired_entry:
+                    for entry_two in self.__data:
+                        # where sensor location is the same, sensor id is different and timestamp is the same/similar
+                            # to pair similar times the timestamp is rounded down to the nearest 10s and paired with match
+                        if (entry['location']['id'] == entry_two['location']['id']) and (entry['sensor']['id'] != entry_two['sensor']['id']) and (floor_date_2(parse(entry['timestamp'])) == floor_date_2(parse(entry_two['timestamp']))):
 
-                if entry['location']['id'] not in paired_sensors:
-                    for entry_2 in self.__data:
-                        if (entry['location']['id'] == entry_2['location']['id']) and (entry['timestamp'] == entry_2['timestamp']) and not (entry['id'] == entry_2['id']):
-                            print(entry['sensor']['id'])
-                            print(entry_2['sensor']['id'])
-                            paired_sensors.append(entry['location']['id'])
-                            paired_sensors.append(entry_2['location']['id'])
-
-
-
-
-
+                            # -------------------TEST PRINTS----------------------
+                            print("sensor location:        ", entry['location']['id'])
+                            print("sensor type:        ", entry['sensor']['sensor_type']['name'],"   sensor:        ", entry['sensor']['id'])
+                            print("sensor type:        ", entry_two['sensor']['sensor_type']['name'],"   sensor:        ", entry_two['sensor']['id'])
+                            print("entry timestamp:     ", parse(entry['timestamp']), "        entry_2 timestamp:     ", entry_two['timestamp'],"\n")
 
 
-                print( "\n", entry)
-                self.insert_info(entry)
+                            paired_entry.append(entry['id'])
+                            paired_entry.append(entry_two['id'])
+
+                            self.insert_info(entry, entry_two)
+
+
+
+
+
+
+                print( "Entry:      ", entry,"\n")
+
                 self.insert_readings(entry)
-            self.correct_data()
+
 
         #print(list(db_query(db_info)))
 

@@ -20,3 +20,9 @@ def floor_date(date, period_in_s=300):
     ts = datetime.timestamp(date)
     new_ts = ts - (ts % 300)
     return(datetime.fromtimestamp(new_ts))
+
+
+def floor_date_2(date, period_in_s=300):
+    ts = datetime.timestamp(date)
+    new_ts = ts - (ts % 10)
+    return(datetime.fromtimestamp(new_ts))

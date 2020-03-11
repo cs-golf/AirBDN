@@ -5,7 +5,7 @@ from pymongo import MongoClient
 # except ImportError:
 uri = "mongodb://localhost:27017/"
 
-db = MongoClient(uri)["airbdn"]
+db = MongoClient(uri)["AirBDN"]
 
 db_info = db.info
 db_readings = db.readings

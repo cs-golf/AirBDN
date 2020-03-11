@@ -2,9 +2,9 @@ from dateutil.parser import parse
 import requests
 # from pprint import pprint
 
-from db.query_scripts import floatify, floor_date, floor_date_2
+from query_scripts import floatify, floor_date, floor_date_2
 from config import luftdaten_dictionary
-from db.mongo import db_insert, db_info, db_readings
+from mongo import db_insert, db_info, db_readings
 
 from bs4 import BeautifulSoup
 

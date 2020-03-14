@@ -1,31 +1,27 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState } from 'react'
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
 
 import './Nav.css'
+import { useWindowSize } from '../hooks'
 
-function useWindowSize() {
-	const [size, setSize] = useState([0, 0])
-	useLayoutEffect(() => {
-		function updateSize() {
-			setSize([window.innerWidth, window.innerHeight])
-		}
-		window.addEventListener('resize', updateSize)
-		updateSize()
-		return () => window.removeEventListener('resize', updateSize)
-	}, [])
-	return size
-}
-
-export default ({ setMapDisplayValue, page, setPage, sidebarIsOpen, toggleSidebar }) => {
+export default ({ setMapDisplayValue, page, setPage }) => {
 	const [width, height] = useWindowSize()
+
+	const [sidebarHidden, setSidebarHidden] = useState(true)
 
 	return (
 		<React.Fragment>
-			{(width > height || sidebarIsOpen) && (
-				<Sidebar page={page} setMapDisplayValue={setMapDisplayValue} setPage={setPage} />
-			)}
-			{width < height && <Topbar setPage={setPage} toggleSidebar={toggleSidebar} />}
+			{/* {(width > height || sidebarIsOpen) && ( */}
+			<Sidebar
+				sidebarHidden={sidebarHidden}
+				setSidebarHidden={setSidebarHidden}
+				page={page}
+				setMapDisplayValue={setMapDisplayValue}
+				setPage={setPage}
+			/>
+			{/* )} */}
+			{width < height && <Topbar setPage={setPage} setSidebarHidden={setSidebarHidden} />}
 		</React.Fragment>
 	)
 }

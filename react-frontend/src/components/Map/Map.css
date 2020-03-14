@@ -1,8 +1,27 @@
 @import '../../App.css';
 
 #mapid {
-  height: 100%;
+  height: calc(100vh - 50px);
   width: 100%;
+}
+@media (orientation: landscape) {
+  #mapid {
+    height: 100vh;
+    margin-top: 0px;
+  }
+}
+
+.map {
+  height: calc(100vh - 50px);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+@media (orientation: landscape) {
+  .map {
+    height: 100vh;
+    margin-top: 0px;
+  }
 }
 
 .mapTooltip {
@@ -30,9 +49,6 @@
   padding-top: 5px;
   padding-left: 5px;
   list-style-type: none;
-}
-
-.imgContainer {
 }
 
 .topImage {

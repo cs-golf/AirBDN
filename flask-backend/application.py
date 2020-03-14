@@ -35,7 +35,6 @@ def get_readings(sensor="any", start="any", end="any"):
             filter_dict["timestamp"]["$gte"] = parse(start)
         if end != "any":
             filter_dict["timestamp"]["$lt"] = parse(end)
-    print(filter_dict)
     output = dumps(db_query(db_readings, filter_dict))
     return Response(output,  mimetype='application/json')
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import L from 'leaflet'
@@ -7,11 +7,55 @@ import HeatmapOverlay from 'heatmap.js/plugins/leaflet-heatmap/leaflet-heatmap'
 import { heatmap, sensorIcons, display } from '../../config.json'
 import './Map.css'
 import aqiScale from './aqiScale.png'
-import { rawToAqi } from '@shootismoke/aqi'
+import Scrub from './Scrub'
+
+import { getAqiPM10, getAqiPM25 } from './aqi'
 
 const getInfo = async () => {
-	let response = await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
-	return response.data
+	setTimeout(() => (window.latestData = getInfo()), 150000)
+	let resp = await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
+	return resp.data
+}
+
+const getReadings = async (grouped = true) => {
+	// helper functions
+	let getRelativeDate = (dd = 0, date = new Date()) => new Date(date.setDate(date.getDate() + dd))
+	let parseDate = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+
+	let resp = await axios.get(
+		`https://airbdn-api.herokuapp.com/api/readings/sensor=any/start=${parseDate(
+			getRelativeDate(-7)
+		)}/end=any`
+	)
+
+	let groupByDate = readings => {
+		let out = readings.reduce((rv, x) => {
+			;(rv[x['timestamp']['$date']] = rv[x['timestamp']['$date']] || []).push(x)
+			return rv
+		}, {})
+		return Object.values(out)
+	}
+
+	return grouped ? groupByDate(resp.data) : resp.data
+}
+
+let getMapData = async scrubValue => {
+	let data = await window.latestData
+	if (scrubValue == 10000) return data
+
+	let weekOfData = await window.weekOfData
+	let n = Math.floor((scrubValue * weekOfData.length) / 10000)
+	return data.map(sensor => {
+		let copy = sensor
+		let match = weekOfData[n].filter(a => a.location_id === sensor._id)
+		if (match[0]) {
+			for (let key in match[0]) {
+				if (key !== '_id' && key !== 'location_id' && key !== 'timestamp')
+					copy.recent_values[key] = match[0][key]
+			}
+		}
+		return copy
+	})
 }
 
 // Tiles the <div> with id='mapid', sets zoom & coordinates
@@ -26,6 +70,8 @@ const initializeMap = () => {
 }
 
 export default ({ mapDisplayValue, setPage, setSensorId }) => {
+	const [scrubValue, setScrubValue] = useState(10000)
+
 	const createTooltipText = sensor => {
 		let tooltip
 		sensor.display_name
@@ -56,17 +102,12 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 	}
 
 	const updateSensorLayer = async () => {
-		if (window.sensorLayer) {
-			window.sensorLayer.addTo(window.abdnMap)
-		} else {
-			window.sensorLayer = L.layerGroup().addTo(window.abdnMap)
-
-			let infoData = await getInfo()
-
-			infoData
-				.map(sensor => createSensorIcon(sensor))
-				.map(icon => window.sensorLayer.addLayer(icon))
-		}
+		if (!window.sensorLayer) window.sensorLayer = L.layerGroup()
+		if (!window.abdnMap.hasLayer(window.sensorLayer)) window.sensorLayer.addTo(window.abdnMap)
+		getMapData(scrubValue).then(d => {
+			window.sensorLayer.clearLayers()
+			d.map(sensor => createSensorIcon(sensor)).map(icon => window.sensorLayer.addLayer(icon))
+		})
 	}
 
 	const updateHeatmapLayer = async displayValue => {
@@ -90,8 +131,8 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 								lng: sensor['lon'],
 								value:
 									Math.max(
-										sensor.recent_values['pm10'],
-										sensor.recent_values['pm25']
+										getAqiPM25(sensor.recent_values['pm10']),
+										getAqiPM10(sensor.recent_values['pm25'])
 									) / heatmap.redValues.aqi
 							}))
 				  }
@@ -107,19 +148,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 							}))
 				  }
 
-		let infoData = await getInfo()
-
-		// if (displayValue === 'aqi') {
-		// 	console.log('adding image')
-		// 	L.imageOverlay(
-		// 		'https://github.com/cs-golf/AirBDN/blob/master/react-frontend/src/components/Map/aqiScale.png',
-		// 		[
-		// 			[57.141, -2.103],
-		// 			[57.241, -2.203]
-		// 		]
-		// 	).addTo(window.abdnMap)
-		// }
-		window.heatmapLayer.setData(parseMapData(infoData, displayValue))
+		getMapData(scrubValue).then(d => window.heatmapLayer.setData(parseMapData(d, displayValue)))
 	}
 
 	const setMapOverlay = displayValue => {
@@ -135,18 +164,18 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 	// runs after component did mount
 	// map has to be initialized (div with id='mapid' has to be 'tiled') after the page loads - hence useEffect()
 	useEffect(() => {
+		window.latestData = getInfo()
+		window.weekOfData = getReadings()
 		initializeMap()
 		setMapOverlay(mapDisplayValue)
 	}, [])
 
 	// runs whenever mapDisplayValue changes
 	// refreshes values from API and changes Overlay displayed on map
-	useEffect(() => setMapOverlay(mapDisplayValue), [mapDisplayValue])
-
-	console.log(mapDisplayValue)
+	useEffect(() => setMapOverlay(mapDisplayValue), [mapDisplayValue, scrubValue])
 
 	return (
-		<React.Fragment>
+		<div className='map'>
 			<div id='mapid' />
 			{mapDisplayValue === 'aqi' && (
 				<div className='imgContainer'>
@@ -159,6 +188,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 					/>
 				</div>
 			)}
-		</React.Fragment>
+			<Scrub scrubValue={scrubValue} setScrubValue={setScrubValue} />
+		</div>
 	)
 }

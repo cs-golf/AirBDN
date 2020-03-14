@@ -9,7 +9,7 @@ firebase.json
 temp_archive_script.py
 
 # dependencies
-/react-frontend/node_modules
+/node_modules
 /react-frontend/.pnp
 /react-frontend.pnp.js
 

@@ -20,14 +20,17 @@
 }
 
 .pageContent {
-  height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px);
+  width: 100vw;
   margin-top: 50px;
   text-align: center;
-  color: var(--text)
+  color: var(--text);
+  overflow: hidden;
 }
 @media (orientation: landscape) {
   .pageContent {
-    height: 100vh;
+    min-height: 100vh;
+    width: calc(100vw - 240px);
     margin-left: 240px;
     margin-top: 0px;
   }

@@ -3,10 +3,10 @@ import './Topbar.css'
 import { Logo } from '..'
 import { default as MenuIcon } from './MenuIcon'
 
-export default function Topbar({ setPage, toggleSidebar }) {
+export default function Topbar({ setPage, setSidebarHidden }) {
 	return (
 		<header className='topbar'>
-			<div id='menu' onClick={toggleSidebar}>
+			<div id='menu' onClick={() => setSidebarHidden(false)}>
 				<MenuIcon />
 			</div>
 			<div className='centerLogo'>

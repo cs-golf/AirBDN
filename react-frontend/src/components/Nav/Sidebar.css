@@ -23,6 +23,7 @@
   z-index: 980;
   background-color: var(--bg);
   box-shadow: 1px 0px 10px var(--bg-shadow);
+  transition: 0.2s;
 
   /* flexbox */
   display: flex;
@@ -30,6 +31,11 @@
 
   /* scrollbar */
   overflow-y: overlay;
+}
+@media (orientation: portrait) {
+  .sidebar.hidden {
+    left: -250px;
+  }
 }
 
 .pageNav {

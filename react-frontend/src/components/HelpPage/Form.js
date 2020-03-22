@@ -23,7 +23,9 @@ export default function Form() {
 			</div>
 			<button
 				onClick={() => {
-					axios.post(`http://127.0.0.1:1111/contact?email=${email}&number=${number})`)
+					axios.post(
+						`https://airbdn-api.herokuapp.com/contact?email=${email}&number=${number}`
+					)
 					email = ''
 					number = ''
 				}}

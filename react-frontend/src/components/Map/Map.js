@@ -8,12 +8,13 @@ import { heatmap, sensorIcons, display } from '../../config.json'
 import './Map.css'
 import aqiScale from './aqiScale.png'
 import Scrub from './Scrub'
+// import Blurb from './Blurb'
 
 import { getAqiPM10, getAqiPM25 } from './aqi'
 
 const getInfo = async () => {
 	setTimeout(() => (window.latestData = getInfo()), 150000)
-	let resp = await axios.get(`https://airbdn-api.herokuapp.com/api/info`)
+	let resp = await axios.get(`https://airbdn-api.herokuapp.com/info`)
 	return resp.data
 }
 
@@ -22,11 +23,9 @@ const getReadings = async (grouped = true) => {
 	let getRelativeDate = (dd = 0, date = new Date()) => new Date(date.setDate(date.getDate() + dd))
 	let parseDate = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 
-	let resp = await axios.get(
-		`https://airbdn-api.herokuapp.com/api/readings/sensor=any/start=${parseDate(
-			getRelativeDate(-7)
-		)}/end=any`
-	)
+	let resp = await axios.get('https://airbdn-api.herokuapp.com/readings', {
+		params: { after: parseDate(getRelativeDate(-7)) }
+	})
 
 	let groupByDate = readings => {
 		let out = readings.reduce((rv, x) => {
@@ -83,7 +82,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 		`)
 		tooltip += `<ul class="tooltipValueList">`
 		for (let key in sensor.recent_values) {
-			if (key !== 'pressure_at_sealevel') {
+			if (Object.keys(display.tooltips).includes(key)) {
 				tooltip += `<li class="tooltipValue">${display.tooltips[key]}: ${sensor.recent_values[key]}</li>`
 			}
 		}
@@ -108,6 +107,17 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 			window.sensorLayer.clearLayers()
 			d.map(sensor => createSensorIcon(sensor)).map(icon => window.sensorLayer.addLayer(icon))
 		})
+	}
+
+	const updateBlurb = displayValue => {
+		L.imageOverlay(aqiScale, [
+			[57.206, -2.184],
+			[57.306, -2.284]
+		]).addTo(window.abdnMap)
+		// let blurbDiv = document.getElementsByClassName('blurb')
+		// console.log(blurbDiv)
+
+		// L.marker([57.206, -2.184], { icon: blurb }).addTo(window.abdnMap)
 	}
 
 	const updateHeatmapLayer = async displayValue => {
@@ -159,6 +169,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 			if (window.sensorLayer) window.sensorLayer.removeFrom(window.abdnMap)
 			updateHeatmapLayer(displayValue)
 		}
+		// updateBlurb(displayValue)
 	}
 
 	// runs after component did mount
@@ -188,6 +199,7 @@ export default ({ mapDisplayValue, setPage, setSensorId }) => {
 					/>
 				</div>
 			)}
+			{/* <Blurb /> */}
 			<Scrub scrubValue={scrubValue} setScrubValue={setScrubValue} />
 		</div>
 	)

@@ -1,4 +1,10 @@
 .aboutPage {
-    margin-left: 10vw;
-    margin-right: 10vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.aboutTitle {
+  font-size: 3em;
+  margin-top: 4vh;
+  margin-bottom: 3vh;
 }

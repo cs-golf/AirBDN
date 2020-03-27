@@ -3,17 +3,20 @@ from flask_cors import CORS
 from bson.json_util import dumps
 from dateutil.parser import parse
 
-from db.mongo import db_info, db_readings, db_query
-from periodic_update import update_thread
+from DatabaseHandler import DatabaseHandler
+from PeriodicUpdate import PeriodicUpdate
 from config import luftdaten_area_box
 
-update_thread.start()
+db = DatabaseHandler("mongodb://localhost:27017/", "AirBDN")
+t = PeriodicUpdate()
+t.start()
+
 application = Flask(__name__)
 CORS(application)
 
 
 def get_info():
-    output = dumps(db_query(db_info))
+    output = dumps(db.query(db.pyinfo))
     return Response(output,  mimetype="application/json")
 
 
@@ -28,7 +31,7 @@ def get_readings(sensor="any", start="any", end="any"):
         if end != "any":
             filter_dict["timestamp"]["$lt"] = parse(end)
     print(filter_dict)
-    output = dumps(db_query(db_readings, filter_dict))
+    output = dumps(db.query(db.pyreadings, filter_dict))
     return Response(output,  mimetype='application/json')
 
 

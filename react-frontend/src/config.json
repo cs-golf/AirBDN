@@ -29,11 +29,6 @@
 		}
 	},
 	"display": {
-		"pages": {
-			"home": "Home",
-			"about": "About Us",
-			"help": "How you can help"
-		},
 		"values": {
 			"sensors": "Sensors",
 			"aqi": "Air Quality Index",

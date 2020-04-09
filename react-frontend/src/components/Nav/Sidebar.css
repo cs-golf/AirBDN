@@ -1,23 +1,12 @@
-@import '../../App.css';
-
 * {
   margin: 0;
   padding: 0;
 }
 
-.logo {
-  margin-top: 5px;
-  margin-bottom: 15px;
-}
-
-.logo:hover {
-  cursor: pointer;
-}
-
 .sidebar {
   width: 240px;
-  height: 100vh;
-  position: absolute;
+  height: 100%;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 980;
@@ -28,6 +17,7 @@
   /* flexbox */
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   /* scrollbar */
   overflow-y: overlay;
@@ -60,21 +50,4 @@
 .listItem:hover {
   cursor: pointer;
   background-color: var(--bg-h);
-}
-
-/* scrollbar style */
-::-webkit-scrollbar {
-  width: 7px;
-}
-::-webkit-scrollbar-track {
-  background: none;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg2);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--bg2-h);
-}
-::-webkit-scrollbar-corner {
-  visibility: hidden;
 }

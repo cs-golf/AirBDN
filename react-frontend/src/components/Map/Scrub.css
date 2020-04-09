@@ -2,7 +2,7 @@
   height: 80px;
 
   position: absolute;
-  bottom: -80px;
+  bottom: -75px;
   left: 5%;
   background-color: var(--bg);
   z-index: 900;
@@ -16,6 +16,7 @@
 }
 
 .toggle {
+  background-color: var(--text);
   position: absolute;
   bottom: 65px;
   /* margin-left: auto;

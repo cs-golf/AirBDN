@@ -1,9 +1,12 @@
-import React from 'react'
-import './Logo.css'
+import React from "react";
+import "./Logo.css";
+import { Link } from "react-router-dom";
 
 export default ({ onClick }) => (
-	<div className='logo' onClick={onClick}>
-		<img className='logoIcon' src='logo512s.png' alt='logo' />
-		AirBDN
-	</div>
-)
+  <Link to="/" style={{ textDecoration: "none" }}>
+    <div className="logo" onClick={onClick}>
+      <img className="logoIcon" src="logo512s.png" alt="logo" />
+      AirBDN
+    </div>
+  </Link>
+);

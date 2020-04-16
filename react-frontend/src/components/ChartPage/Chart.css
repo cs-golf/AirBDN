@@ -1,0 +1,19 @@
+#chart {
+  width: 100%;
+  color: white;
+  /* margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto; */
+}
+
+.chartCard {
+  grid-area: chart;
+  background-color: var(--bg-h);
+  box-shadow: 1px 0px 10px #171717;
+}
+
+@media only screen and (min-width: 800px) {
+  .chartCard {
+    border-radius: 10px;
+  }
+}

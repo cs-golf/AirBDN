@@ -1,47 +1,58 @@
 {
-	"sensorIcons": {
-		"config": { "radius": 100, "color": "#333", "fillColor": "#0005" }
-	},
-	"heatmap": {
-		"config": {
-			"radius": 0.01,
-			"minOpacity": 0.05,
-			"maxOpacity": 0.7,
-			"scaleRadius": true,
-			"useLocalExtrema": false,
-			"blur": 0.75,
-			"gradient": {
-				"0.001": "rgb(0,228,0)",
-				"0.01": "rgb(0,228,0)",
-				"0.1": "rgb(255,255,0)",
-				"0.2": "rgb(255,126,0)",
-				"0.3": "rgb(255,0,0)",
-				"0.4": "rgb(153,0,76)",
-				"0.6": "rgb(76,0,38)"
-			},
-			"valueField": "value"
-		},
-		"redValues": {
-			"aqi": 500,
-			"temperature": 30,
-			"pressure": 200000,
-			"humidity": 200
-		}
-	},
-	"display": {
-		"values": {
-			"sensors": "Sensors",
-			"aqi": "Air Quality Index",
-			"temperature": "Temperature",
-			"pressure": "Pressure",
-			"humidity": "Humidity"
-		},
-		"tooltips": {
-			"pm25": "PM 2.5",
-			"pm10": "PM 10",
-			"temperature": "Temperature",
-			"pressure": "Pressure",
-			"humidity": "Humidity"
-		}
-	}
+  "sensorIcons": {
+    "default": {
+      "radius": 145,
+      "color": "#3335",
+      "fillColor": "#0000",
+      "weight": 1
+    },
+    "hover": {
+      "color": "#333",
+      "fillColor": "#0000",
+      "weight": 2
+    }
+  },
+  "heatmap": {
+    "config": {
+      "radius": 0.01,
+      "minOpacity": 0.05,
+      "maxOpacity": 0.7,
+      "scaleRadius": true,
+      "useLocalExtrema": false,
+      "blur": 0.75,
+      "gradient": {
+        "0.001": "rgb(0,228,0)",
+        "0.01": "rgb(0,228,0)",
+        "0.1": "rgb(255,255,0)",
+        "0.2": "rgb(255,126,0)",
+        "0.3": "rgb(255,0,0)",
+        "0.4": "rgb(153,0,76)",
+        "0.6": "rgb(76,0,38)"
+      },
+      "valueField": "value"
+    },
+    "redValues": {
+      "pm10": 500,
+      "pm25": 500,
+      "temperature": 150,
+      "pressure": 200000,
+      "humidity": 400
+    }
+  },
+  "display": {
+    "values": {
+      "pm10": "PM 10 (AQI)",
+      "pm25": "PM 2.5 (AQI)",
+      "temperature": "Temperature",
+      "pressure": "Pressure",
+      "humidity": "Humidity"
+    },
+    "units": {
+      "pm10": "(AQI)",
+      "pm25": "(AQI)",
+      "temperature": "°C",
+      "pressure": "pa",
+      "humidity": "%"
+    }
+  }
 }

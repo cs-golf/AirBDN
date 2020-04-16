@@ -2,9 +2,9 @@
   max-width: 95%;
   display: grid;
   grid-template-areas:
-    "text1"
-    "text2"
-    "text3";
+    "project"
+    "choices"
+    "team";
   grid-gap: 3em;
   padding: 3em;
   grid-template-rows: auto auto auto;
@@ -13,9 +13,9 @@
 @media only screen and (min-width: 800px) {
   .aboutPage {
     grid-template-areas:
-      "text1 text1 ."
-      ". text2 text2"
-      "text3 text3 .";
+      "project project ."
+      ". choices choices"
+      "team team .";
     grid-template-columns: 1fr 2fr 1fr;
   }
 }
@@ -26,16 +26,16 @@
   /* margin-bottom: 3vh; */
 }
 
-.text1 {
-  grid-area: text1;
+.project {
+  grid-area: project;
 }
 
-.text2 {
-  grid-area: text2;
+.team {
+  grid-area: team;
 }
 
-.text3 {
-  grid-area: text3;
+.choices {
+  grid-area: choices;
 }
 
 h2 {

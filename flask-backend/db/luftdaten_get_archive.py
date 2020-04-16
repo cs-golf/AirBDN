@@ -47,7 +47,7 @@ def mongo_update_readings_day(sensor_name_id, day):
             parse_to_mongo(raw_readings[0], row)
         return(list(db_query(db_readings)))
     else:
-        return(False)
+        return(False)   
 
 
 def mongo_mass_update_readings(box, start_date, no_of_days=1):

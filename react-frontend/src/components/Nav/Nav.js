@@ -4,7 +4,7 @@ import Topbar from "./Topbar";
 
 import { useWindowSize } from "../hooks";
 
-export default ({ setMapDisplayValue }) => {
+export default ({ setDisplayedStat, displayedStat }) => {
   const [width, height] = useWindowSize();
   const [sidebarHidden, setSidebarHidden] = useState(true);
 
@@ -13,7 +13,8 @@ export default ({ setMapDisplayValue }) => {
       <Sidebar
         sidebarHidden={sidebarHidden}
         setSidebarHidden={setSidebarHidden}
-        setMapDisplayValue={setMapDisplayValue}
+        setDisplayedStat={setDisplayedStat}
+        displayedStat={displayedStat}
       />
       {width < height && <Topbar setSidebarHidden={setSidebarHidden} />}
     </React.Fragment>

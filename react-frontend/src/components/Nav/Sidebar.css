@@ -51,3 +51,29 @@
   cursor: pointer;
   background-color: var(--bg-h);
 }
+
+.activeListItem {
+  /* background-color: var(--bg-h); */
+  color: var(--accent);
+}
+
+.sidebarBanner {
+  max-width: 90%;
+  margin-left: 5%;
+  margin-top: 30px;
+}
+
+.bannerLight {
+  visibility: visible;
+}
+.bannerDark {
+  visibility: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  .bannerLight {
+    visibility: hidden;
+  }
+  .bannerDark {
+    visibility: visible;
+  }
+}

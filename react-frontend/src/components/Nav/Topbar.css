@@ -1,4 +1,4 @@
-@import '../../App.css';
+@import "../../App.css";
 
 .topbar {
   width: 100%;
@@ -22,8 +22,23 @@
   cursor: pointer;
 }
 
-.centerLogo {
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
+.topBanner {
+  margin-top: 4px;
+  max-height: 42px;
+  margin-left: calc(-100px + 45vw);
+}
+
+.bannerLight {
+  visibility: visible;
+}
+.bannerDark {
+  visibility: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  .bannerLight {
+    visibility: hidden;
+  }
+  .bannerDark {
+    visibility: visible;
+  }
 }

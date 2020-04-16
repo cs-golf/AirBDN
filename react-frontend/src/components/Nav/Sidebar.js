@@ -3,10 +3,14 @@ import { useOnClickAway } from "../hooks";
 
 import "./Sidebar.css";
 import { display } from "../../config.json";
-import { Logo } from "..";
 import { Link } from "react-router-dom";
 
-function Sidebar({ sidebarHidden, setSidebarHidden, setMapDisplayValue }) {
+function Sidebar({
+  sidebarHidden,
+  setSidebarHidden,
+  setDisplayedStat,
+  displayedStat
+}) {
   const sidebar = useRef(null);
 
   useOnClickAway(sidebar, () => setSidebarHidden(true));
@@ -18,18 +22,49 @@ function Sidebar({ sidebarHidden, setSidebarHidden, setMapDisplayValue }) {
 
   useEffect(() => hideSidebar(sidebarHidden), [sidebarHidden]);
 
+  const currentPage = window.location.pathname;
+
   const pageNav = (
     <nav>
       <ul className="pageNav">
-        <Logo className="logo" />
         <Link to="/" style={{ textDecoration: "none" }}>
-          <li className="listItem">Home</li>
+          <img
+            className="sidebarBanner bannerDark"
+            src="banner_dark.png"
+            alt="logo"
+          />
+          <img
+            className="sidebarBanner bannerLight"
+            src="banner_dark.png"
+            alt="logo"
+          />
+        </Link>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <li
+            className={
+              currentPage === "/" ? "listItem activeListItem" : "listItem"
+            }
+          >
+            Map
+          </li>
         </Link>
         <Link to="/about" style={{ textDecoration: "none" }}>
-          <li className="listItem">About us</li>
+          <li
+            className={
+              currentPage === "/about" ? "listItem activeListItem" : "listItem"
+            }
+          >
+            About us
+          </li>
         </Link>
         <Link to="/help" style={{ textDecoration: "none" }}>
-          <li className="listItem">How you can help</li>
+          <li
+            className={
+              currentPage === "/help" ? "listItem activeListItem" : "listItem"
+            }
+          >
+            How you can help
+          </li>
         </Link>
       </ul>
     </nav>
@@ -39,9 +74,11 @@ function Sidebar({ sidebarHidden, setSidebarHidden, setMapDisplayValue }) {
     <ul className="mapValueNav">
       {Object.keys(display.values).map(key => (
         <li
-          className="listItem"
+          className={
+            displayedStat === key ? "listItem activeListItem" : "listItem"
+          }
           key={key}
-          onClick={() => setMapDisplayValue(key)}
+          onClick={() => setDisplayedStat(key)}
         >
           {display.values[key]}
         </li>
@@ -52,7 +89,7 @@ function Sidebar({ sidebarHidden, setSidebarHidden, setMapDisplayValue }) {
   return (
     <div className="sidebar" ref={sidebar}>
       {pageNav}
-      {setMapDisplayValue && mapValueNav}
+      {setDisplayedStat && mapValueNav}
     </div>
   );
 }

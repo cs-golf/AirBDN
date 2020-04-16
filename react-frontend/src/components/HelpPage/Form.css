@@ -1,5 +1,5 @@
 .form {
-  width: 70vw;
+  /* width: 70%; */
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -28,9 +28,9 @@
   color: rgb(221, 221, 221);
   border: 0;
   border-radius: 7px;
-  height: 70px;
+  height: 30px;
   font-weight: 600;
-  font-size: 1.7em;
+  font-size: 1em;
 }
 
 .submitButton:hover {

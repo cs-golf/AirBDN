@@ -8,6 +8,6 @@ def periodic_update():
     while True:
         print(f"{time.time()}: updating data for boundary {luftdaten_area_box}")
         mongo_update_info(luftdaten_area_box)
-        time.sleep(300 - ((time.time() - starttime) % 300))
+        time.sleep(150 - ((time.time() - starttime) % 150))
         
 update_thread = Thread(target=periodic_update)

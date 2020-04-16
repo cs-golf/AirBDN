@@ -1,0 +1,63 @@
+.chartPage {
+  display: grid;
+  grid-template-areas:
+    "text"
+    "chart"
+    "datePicker"
+    "download";
+  grid-gap: 1em;
+}
+
+.text {
+  margin-top: 30px;
+  grid-area: text;
+  text-align: center;
+}
+
+@media only screen and (min-width: 800px) {
+  .chartPage {
+    margin: 10px;
+    grid-template-areas:
+      "text ."
+      "chart download"
+      "datePicker download";
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.chartPageDatePicker {
+  grid-area: datePicker;
+  /* background-color: white; */
+  margin: 10px auto;
+}
+
+.chartPageDatePicker .react-date-picker {
+  color: #000;
+  font-weight: 500;
+  text-align: center;
+  background-color: #8b8b8b;
+  margin: 0px 10px;
+  box-shadow: 1px 0px 10px #171717;
+}
+
+.chartPageDatePicker .react-calendar {
+  position: fixed;
+  /* color: var(--text); */
+  /* background-color: var(--bg); */
+}
+
+.download {
+  margin: 100px auto;
+  grid-area: download;
+  text-align: center;
+  color: var(--text);
+  font-weight: 450;
+  width: 450px;
+}
+
+.download a {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 700;
+  text-decoration: none;
+}

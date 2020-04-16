@@ -2,72 +2,81 @@
   height: 80px;
 
   position: absolute;
-  bottom: -80px;
-  left: 5%;
+  bottom: -75px;
   background-color: var(--bg);
   z-index: 900;
   width: 90%;
-  border-radius: 7px 7px 0 0;
+  margin-left: 5%;
+  border-radius: 20px 20px 0 0;
   transition: 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .popUp.active {
   bottom: 0px;
 }
 
+@media (orientation: landscape) {
+  .popUp {
+    width: calc(90% - 240px);
+  }
+}
+
 .toggle {
+  background-color: var(--bg);
   position: absolute;
   bottom: 65px;
-  /* margin-left: auto;
-  margin-right: auto; */
   left: 50%;
   transform: translate(-50%);
   width: 50px;
   height: 50px;
-  border-radius: 25px;
+  border-radius: 20px;
+  border: none;
+  color: var(--text);
+  box-shadow: 1px 0px 10px #171717;
+  transition: 0.2s;
+}
+
+.toggle.active {
+  transform: translate(-50%) rotate(180deg);
+}
+
+.scrubDatePicker {
+  grid-area: datePicker;
+  /* background-color: white; */
+  margin: 10px auto;
+}
+
+.scrubDatePicker .react-date-picker {
+  color: #000;
+  font-weight: 500;
+  text-align: center;
+  background-color: #8b8b8b;
+  margin: 0px 10px;
 }
 
 .scrub {
-  vertical-align: middle;
+  margin-top: 3%;
   width: 90%;
-  max-width: 90%;
-  height: 50px;
-  margin-top: 20px;
+  margin-left: 5%;
+  height: 25px;
+  flex: 0 1 auto;
   -webkit-appearance: none;
   background: transparent;
 }
 
 .scrub::-webkit-slider-thumb {
   -webkit-appearance: none;
-  /* border: 1px solid #000000; */
-  height: 36px;
+  height: 30px;
   width: 16px;
   border-radius: 3px;
   background: var(--accent);
   cursor: pointer;
-  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  margin-top: -11px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
 }
-
-/* .scrub::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-.scrub::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-} */
 
 .scrub:focus {
   outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
@@ -87,7 +96,20 @@
   background: #367ebd;
 }
 
-/* .scrub::-moz-range-track {
+/*
+  mozilla
+*/
+.scrub::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.scrub::-moz-range-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
@@ -95,6 +117,19 @@
   background: #3071a9;
   border-radius: 1.3px;
   border: 0.2px solid #010101;
+}
+
+/*
+  edge/ie
+*/
+.scrub::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
 }
 
 .scrub::-ms-track {
@@ -123,4 +158,4 @@
 }
 .scrub:focus::-ms-fill-upper {
   background: #367ebd;
-} */
+}

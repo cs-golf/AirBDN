@@ -1,0 +1,46 @@
+.helpPage {
+  max-width: 95%;
+  display: grid;
+  grid-template-areas:
+    "fund"
+    "build"
+    "host"
+    "post";
+  grid-gap: 3em;
+  padding: 3em;
+  grid-template-rows: auto auto auto;
+}
+
+@media only screen and (min-width: 800px) {
+  .helpPage {
+    grid-template-areas:
+      "fund fund ."
+      ". build build"
+      "host host ."
+      "post post post";
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+}
+
+.fund {
+  grid-area: fund;
+}
+
+.host {
+  grid-area: host;
+}
+
+.build {
+  grid-area: build;
+}
+
+.build a {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.post {
+  grid-area: post;
+}

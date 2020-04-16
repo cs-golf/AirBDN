@@ -1,8 +1,8 @@
-@import '../../App.css';
+@import "../../App.css";
 
 #mapid {
   height: calc(100vh - 50px);
-  width: 100%;
+  width: 100vw;
 }
 @media (orientation: landscape) {
   #mapid {
@@ -13,7 +13,7 @@
 
 .map {
   height: calc(100vh - 50px);
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
   position: relative;
 }
@@ -24,43 +24,29 @@
   }
 }
 
-.mapTooltip {
-  font-size: 0.9rem;
-  opacity: 1;
-  background: var(--bg);
-  color: var(--text);
-  border: 0px;
-  min-width: 150px;
-  max-width: 150px;
-  border-radius: 7px;
-  white-space: normal;
-}
-
-.tooltipTitle {
-  margin-top: -3px;
-  font-size: 1.1em;
-  font-weight: 750;
-  text-align: center;
-  max-width: 150px;
-}
-
-.tooltipValueList {
-  font-weight: 500;
-  padding-top: 5px;
+.tooltip {
   padding-left: 5px;
-  list-style-type: none;
+  padding-right: 5px;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .topImage {
-  display: block;
-  width: 100%;
-  height: auto;
   position: absolute;
-  z-index: 999;
-  bottom: 30px;
-  right: 10px;
-  max-width: 15vw;
-  max-height: 45vh;
-  width: auto;
+  display: block;
+
   height: auto;
+
+  z-index: 900;
+
+  bottom: 20px;
+  right: 10px;
+
+  max-width: min(150px, 20vw);
+}
+
+@media (orientation: landscape) {
+  .topImage {
+    right: 250px;
+  }
 }

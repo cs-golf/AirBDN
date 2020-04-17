@@ -10,36 +10,48 @@ import time
 # extracting the table off the page
 
 
-def _remove(d: list) -> list:
-    return list(filter(None, [re.sub('\xa0', '', b) for b in d]))
+class Scrape:
+    def __init__(self, city, yearStart, yearEnd):
+        self.city = city
+        self.yearStart = yearStart
+        self.yearEnd = yearEnd
+        self.driver = webdriver.Chrome('E:/chromedriver.exe')
+
+    def _remove(self, d: list) -> list:
+        return list(filter(None, [re.sub('\xa0', '', b) for b in d]))
+
+    @contextlib.contextmanager
+    def get_weather_data(self, url: str, by_url=True) -> typing.Generator[dict, None, None]:
+        d = soup(requests.get(url).text if by_url else url, 'html.parser')
+        _table = d.find('table', {'id': 'wt-his'})
+        _data = [[[i.text for i in c.find_all(
+            'th')], *[i.text for i in c.find_all('td')]] for c in _table.find_all('tr')]
+        [h1], [h2], *data, _ = _data
+        _h2 = self._remove(h2)
+        yield {tuple(self._remove(h1)): [dict(zip(_h2, self._remove([a, *i]))) for [[a], *i] in data]}
+
+    def execute(self):
+        # year , month change by changing url
+        for year in range(self.yearStart, self.yearEnd):
+            for month in range(1, 12):
+                try:
+                    data_collection = {}
+                    self.driver.get('https://www.timeanddate.com/weather/uk/'+self.city+'/historic?month=' +
+                                    str(month) + '&year='+str(year))
+                # changing js button selection
+                    for i in self.driver.find_element_by_id('wt-his-select').find_elements_by_tag_name('option'):
+                        i.click()
+                        with self.get_weather_data(self.driver.page_source, False) as weather:
+                            data_collection[i.text] = weather
+                    for date, data in data_collection.items():
+                        print(date)
+                        print(data)
+                        # here push data in mongo db
+                except:
+                    print("An exception occurred")
 
 
-@contextlib.contextmanager
-def get_weather_data(url: str, by_url=True) -> typing.Generator[dict, None, None]:
-    d = soup(requests.get(url).text if by_url else url, 'html.parser')
-    _table = d.find('table', {'id': 'wt-his'})
-    _data = [[[i.text for i in c.find_all(
-        'th')], *[i.text for i in c.find_all('td')]] for c in _table.find_all('tr')]
-    [h1], [h2], *data, _ = _data
-    _h2 = _remove(h2)
-    yield {tuple(_remove(h1)): [dict(zip(_h2, _remove([a, *i]))) for [[a], *i] in data]}
 
-
-d = webdriver.Chrome('E:/chromedriver.exe')
-data_collection = {}
-
-# year , month change by changing url
-for year in range(2014, 2020):
-    for month in range(1, 12):
-        d.get('https://www.timeanddate.com/weather/uk/aberdeen/historic?month=' +
-              str(month) + '&year='+str(year))
-# changing js button selection
-        for i in d.find_element_by_id('wt-his-select').find_elements_by_tag_name('option'):
-            i.click()
-            with get_weather_data(d.page_source, False) as weather:
-                data_collection[i.text] = weather
-        for date, data in data_collection.items():
-            print(date)
-            print(data)
-            # here push data in mongo db
-
+#name city  years between scraping for dateandtime.com
+p1 = Scrape("aberdeen", 2014, 2020)
+p1.execute()

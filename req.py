@@ -16,11 +16,12 @@ collection = db['test-collection']
 
 
 class Scrape:
-    def __init__(self, city, yearStart, yearEnd):
+    def __init__(self, country, city, yearStart, yearEnd):
         self.city = city
         self.yearStart = yearStart
         self.yearEnd = yearEnd
         self.driver = webdriver.Chrome('E:/chromedriver.exe')
+        self.country = country
 
     def _remove(self, d: list) -> list:
         return list(filter(None, [re.sub('\xa0', '', b) for b in d]))
@@ -41,7 +42,7 @@ class Scrape:
             for month in range(1, 12):
                 try:
                     data_collection = {}
-                    self.driver.get('https://www.timeanddate.com/weather/uk/'+self.city+'/historic?month=' +
+                    self.driver.get('https://www.timeanddate.com/weather/'+self.country+'/'+self.city+'/historic?month=' +
                                     str(month) + '&year='+str(year))
                 # changing js button selection
                     for i in self.driver.find_element_by_id('wt-his-select').find_elements_by_tag_name('option'):
@@ -63,7 +64,7 @@ class Scrape:
 
 
 # name city  years between scraping for dateandtime.com
-p1 = Scrape("aberdeen", 2014, 2020)
+p1 = Scrape('uk', 'aberdeen', 2014, 2020)
 p1.execute()
 
 

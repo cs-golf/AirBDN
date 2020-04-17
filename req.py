@@ -43,14 +43,18 @@ class Scrape:
                         i.click()
                         with self.get_weather_data(self.driver.page_source, False) as weather:
                             data_collection[i.text] = weather
-                    for date, data in data_collection.items():
-                        print(data)
-                        print(date)
-                        # here push data in mongo db
+                    for date, raw_data in data_collection.items():
+                        for data in raw_data[('Conditions', 'Comfort')]:
+                            data['date'] = date
+                            print(data)
+                            # here push data in mongo db
+                            # data is a small json format element to push in
                 except:
                     print("An exception occurred")
+
 
 # name city  years between scraping for dateandtime.com
 p1 = Scrape("aberdeen", 2014, 2020)
 p1.execute()
+
 

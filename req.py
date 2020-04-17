@@ -1,4 +1,4 @@
-#exctracting data from https://www.timeanddate.com/weather/uk/aberdeen/
+# exctracting data from https://www.timeanddate.com/weather/uk/aberdeen/
 import requests
 import re
 import typing
@@ -8,8 +8,11 @@ from selenium import webdriver
 import time
 
 # extracting the table off the page
+
+
 def _remove(d: list) -> list:
     return list(filter(None, [re.sub('\xa0', '', b) for b in d]))
+
 
 @contextlib.contextmanager
 def get_weather_data(url: str, by_url=True) -> typing.Generator[dict, None, None]:
@@ -25,13 +28,18 @@ def get_weather_data(url: str, by_url=True) -> typing.Generator[dict, None, None
 d = webdriver.Chrome('E:/chromedriver.exe')
 data_collection = {}
 
-#year , month change by changing url
+# year , month change by changing url
 for year in range(2014, 2020):
     for month in range(1, 12):
         d.get('https://www.timeanddate.com/weather/uk/aberdeen/historic?month=' +
               str(month) + '&year='+str(year))
-#changing js button selection
+# changing js button selection
         for i in d.find_element_by_id('wt-his-select').find_elements_by_tag_name('option'):
             i.click()
             with get_weather_data(d.page_source, False) as weather:
                 data_collection[i.text] = weather
+        for date, data in data_collection.items():
+            print(date)
+            print(data)
+            # here push data in mongo db
+

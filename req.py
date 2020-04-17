@@ -6,6 +6,11 @@ from bs4 import BeautifulSoup as soup
 import contextlib
 from selenium import webdriver
 import time
+from pymongo import MongoClient
+
+client = MongoClient('localhost', 27017)
+db = client['test-database']
+collection = db['test-collection']
 
 # extracting the table off the page
 
@@ -45,8 +50,12 @@ class Scrape:
                             data_collection[i.text] = weather
                     for date, raw_data in data_collection.items():
                         for data in raw_data[('Conditions', 'Comfort')]:
-                            data['date'] = date
+                            data['Date'] = date
+                            data['Humidity'] = data['Barometer']
+                            data['Barometer'] = data['Visibility']
+                            del data['Visibility']
                             print(data)
+                            collection.insert_one(data)
                             # here push data in mongo db
                             # data is a small json format element to push in
                 except:

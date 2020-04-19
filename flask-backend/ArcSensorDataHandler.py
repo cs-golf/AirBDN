@@ -33,14 +33,15 @@ class ArcSensorDataHandler:
         
 
         if row[1] == "DHT22":
-            true_hum = self.__db.queryr(self.__db.pyweather, {"date_time": {
-            "$gte": row[5]-timedelta(hours=0, minutes=30),
-            "$lt": row[5]+timedelta(hours=0, minutes=30)}}, { "Humidity.$": 1 }).replace("%", "")
+            time = parse(row[5])
+            true_hum = self.__db.pyweather.find_one({"Date": {
+            "$gte": time-timedelta(hours=0, minutes=30),
+            "$lt": time+timedelta(hours=0, minutes=30)}}, { "Humidity": 1 })
 
             print("-- new humidity added to DHT --\n")
             self.__db.insert(self.__db.pyreadings,
                             {"location_id": int(row[2]), "timestamp": floor_date(parse(row[5]))},
-                             {"true_humidity": true_hum})
+                             {"true_humidity": int(true_hum["Humidity"])})
             
 
     def __mongo_update_readings_day(self, sensor_name_id, day):

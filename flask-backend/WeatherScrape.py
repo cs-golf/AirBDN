@@ -23,8 +23,8 @@ class WeatherScrape:
         self.yearStart = yearStart
         self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
         self.country = country
-        self.db = MongoClient('localhost', 27017)
-        self.collection = db['weather']
+        self.db = MongoClient('localhost', 27017)['AirBDN']
+        self.collection = self.db ['weather']
 
     # scrape the HTML table of a page
     def _remove(self, d: list) -> list:
@@ -63,12 +63,18 @@ class WeatherScrape:
                         # restructure the taken json
                         for date, raw_data in data_collection.items():
                             for data in raw_data[('Conditions', 'Comfort')]:
-                                # datetime.datetime.strptime(date, '%d %B %Y').strftime('%Y-%m-%d')
-                                data['Date'] = data['Date']
-                                
-                                data['Humidity'] = data['Barometer']
-                                data['Barometer'] = data['Visibility']
+                                data['Time'] = data['Time'][:5]
+                                # print(time.strptime(
+                                #     str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y"))
+                                exact_date = datetime.datetime.strptime(
+                                    str(date) + " " + data['Time'], "%d %B %Y %H:%M")
+                                data['Date'] = exact_date
+                                data['Humidity'] = data['Barometer'][:-1]
+                                data['Barometer'] = data['Visibility'][:-4]
+                                data['Wind'] = data['Wind'][:-3]
+                                data['Temp'] = data['Temp'][:-2]
                                 del data['Visibility']
+                                del data['Time']
                                 print(data)
                                 self.collection.insert_one(data)
                                 # here push data in mongo db
@@ -76,6 +82,5 @@ class WeatherScrape:
                     except:
                         print("An exception occurred")
         print("work finished")
-
 
 

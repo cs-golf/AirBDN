@@ -92,19 +92,25 @@ class SensorDataHandler:
 
 
         if particle_entry['sensor']['sensor_type']['name'] == "SDS011":
+            try:
+                yesterday = datetime.today() - timedelta(days=1)
+                last24hrs = list(self.__db.query(self.__db.pyreadings, {"location_id": particle_entry['location']['id'],
+                                                        "timestamp": {"$gt": yesterday}}))
 
-            yesterday = datetime.today() - timedelta(days=1)
-            last24hrs = list(self.__db.query(self.__db.pyreadings, {"location_id": particle_entry['location']['id'],
-                                                    "timestamp": {"$gt": yesterday}}))
+                pm10_24hr = reduce(lambda r1, r2: {'pm10': r1['pm10'] + r2['pm10']},
+                                filter(lambda r: "pm10" in r, last24hrs))['pm10'] / len(last24hrs)
+                pm25_24hr = reduce(lambda r1, r2: {'pm25': r1['pm25'] + r2['pm25']},
+                                filter(lambda r: "pm25" in r, last24hrs))['pm25'] / len(last24hrs)
 
-            pm10_24hr = reduce(lambda r1, r2: {'pm10': r1['pm10'] + r2['pm10']},
-                               filter(lambda r: "pm10" in r, last24hrs))['pm10'] / len(last24hrs)
-            pm25_24hr = reduce(lambda r1, r2: {'pm25': r1['pm25'] + r2['pm25']},
-                               filter(lambda r: "pm25" in r, last24hrs))['pm25'] / len(last24hrs)
+                self.__db_insert(self.__db.pyinfo, {"_id": particle_entry['location']['id']},
+                        {"recent_values.pm10_24hr": pm10_24hr,
+                        "recent_values.pm25_24hr": pm25_24hr})
+            except:
+                pass
+            
 
-            self.__db_insert(self.__db.pyinfo, {"_id": particle_entry['location']['id']},
-                      {"recent_values.pm10_24hr": pm10_24hr,
-                       "recent_values.pm25_24hr": pm25_24hr})
+            
+            
 
         # adds a display name to db entry
         reading = list(self.__db.query(self.__db.pyinfo, {"_id": particle_entry['location']['id']}))[0]
@@ -141,6 +147,9 @@ class SensorDataHandler:
 
             self.__db.insert(self.__db.pyreadings, {"location_id": weather_entry['location']['id']},
                              {"true_humidity": self.__humidity})
+
+
+                             
             if self.__humidity > self.__h_limit:
                 print("-- humidity is over 70% --\n")
                 hum = self.__humidity
@@ -211,20 +220,24 @@ class SensorDataHandler:
 
 
         elif entry['sensor']['sensor_type']['name'] == "SDS011":
+            try:
+                yesterday = datetime.today() - timedelta(days=1)
+                last24hrs = list(self.__db.query(self.__db.pyreadings, {"location_id": entry['location']['id'],
+                                                        "timestamp": {"$gt": yesterday}}))
 
-            yesterday = datetime.today() - timedelta(days=1)
-            last24hrs = list(self.__db.query(self.__db.pyreadings, {"location_id": entry['location']['id'],
-                                                    "timestamp": {"$gt": yesterday}}))
+                pm10_24hr = reduce(lambda r1, r2: {'pm10': r1['pm10'] + r2['pm10']},
+                                filter(lambda r: "pm10" in r, last24hrs))['pm10'] / len(last24hrs)
+                pm25_24hr = reduce(lambda r1, r2: {'pm25': r1['pm25'] + r2['pm25']},
+                                filter(lambda r: "pm25" in r, last24hrs))['pm25'] / len(last24hrs)
 
-            pm10_24hr = reduce(lambda r1, r2: {'pm10': r1['pm10'] + r2['pm10']},
-                               filter(lambda r: "pm10" in r, last24hrs))['pm10'] / len(last24hrs)
-            pm25_24hr = reduce(lambda r1, r2: {'pm25': r1['pm25'] + r2['pm25']},
-                               filter(lambda r: "pm25" in r, last24hrs))['pm25'] / len(last24hrs)
+                self.__db_insert(self.__db.pyinfo, {"_id": entry['location']['id']},
+                        {"recent_values.pm10_24hr": pm10_24hr,
+                        "recent_values.pm25_24hr": pm25_24hr})
 
-            self.__db_insert(self.__db.pyinfo, {"_id": entry['location']['id']},
-                      {"recent_values.pm10_24hr": pm10_24hr,
-                       "recent_values.pm25_24hr": pm25_24hr})
-
+            except:
+                pass
+  
+            
         # adds a display name to db entry
         reading = list(self.__db.query(self.__db.pyinfo, {"_id": entry['location']['id']}))[0]
         if "display_name" not in reading:

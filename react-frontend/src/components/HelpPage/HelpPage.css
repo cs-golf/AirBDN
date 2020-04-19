@@ -7,7 +7,8 @@
     'info'
     'fund'
     'build'
-    'host';
+    'host'
+    'form';
   grid-gap: 3em;
   grid-template-rows: auto auto auto;
 }
@@ -18,7 +19,8 @@
       'info info info'
       'fund fund .'
       '. build build'
-      'host host .';
+      'host host .'
+      'form form form';
     grid-template-columns: 1fr 2fr 1fr;
     padding: 3em;
   }
@@ -26,10 +28,6 @@
 
 .fund {
   grid-area: fund;
-}
-
-.host {
-  grid-area: host;
 }
 
 .build {
@@ -45,4 +43,55 @@
 
 .info {
   grid-area: info;
+}
+
+.host {
+  grid-area: host;
+  margin-bottom: 1vh;
+}
+
+.form {
+  grid-area: form;
+  margin: 2em 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 60px;
+}
+
+/* .textArea {
+  flex: 60;
+  margin-right: 7px;
+} */
+
+.textBox {
+  flex: 4;
+  /* padding-left: 40px; */
+  border-radius: 15px;
+  border: none;
+  margin: 5px;
+
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.submitButton {
+  flex: 1;
+  margin: 5px;
+  padding: 7px;
+  background-color: var(--accent);
+  color: rgb(221, 221, 221);
+  border: 0;
+  border-radius: 15px;
+
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+  background-color: var(--accent-h);
 }

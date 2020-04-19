@@ -7,13 +7,12 @@ from db.mongo import db_info, db_readings, db_contact, db_query, db_insert
 from periodic_update import update_thread
 from config import luftdaten_area_box
 
-update_thread.start()
 application = Flask(__name__)
 CORS(application)
 
 
 def index():
-    return "<h1>TUTORIAL FOR API HERE</h1><p>/info</p><p>/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</p>"
+    return "<p>visit <a href='https://airbdn-api.herokuapp.com/info'>/info</a> for general sensor information and latest readings</p><p>visit <a href='https://airbdn-api.herokuapp.com/readings?after=2020-1-1&before=2020-01-02'>/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</a> for all readings, query by time and sensorid</p><p>visit <a href='https://airbdn-api.herokuapp.com/stream/readings?after=2020-1-1&before=2020-01-02'>/stream/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</a> same as above but in form of a http stream</p>"
 
 
 def get_info():
@@ -77,3 +76,4 @@ application.add_url_rule('/contact', 'contact', post_contact, methods=['POST'])
 
 if __name__ == "__main__":
     application.run(port=1111)
+    update_thread.start()

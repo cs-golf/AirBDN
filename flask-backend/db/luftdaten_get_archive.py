@@ -20,7 +20,7 @@ def get_raw_readings(sensor_name_id, date):
         requests.get(csv_url).raise_for_status()
     except:
         print(
-            f"    {date}_{sensor_name_id} - error: could not get readings from luftdaten API")
+            f"    {date}_{sensor_name_id} - error: could not reach luftdaten archive")
         return(False)
     else:
         response = requests.get(csv_url).content.decode('utf-8')
@@ -47,7 +47,7 @@ def mongo_update_readings_day(sensor_name_id, day):
             parse_to_mongo(raw_readings[0], row)
         return(list(db_query(db_readings)))
     else:
-        return(False)   
+        return(False)
 
 
 def mongo_mass_update_readings(box, start_date, no_of_days=1):

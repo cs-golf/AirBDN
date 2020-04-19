@@ -2,29 +2,32 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { display } from "../../config.json";
 
+const tryGetTrue = (obj) => (stat) =>
+  obj[`true_${stat}`] ? obj[`true_${stat}`] : obj[stat];
+
 const Chart = ({
   sensorId,
   startDate,
   endDate,
   displayedStat,
-  labelSparsity = 5
+  labelSparsity = 5,
 }) => {
   const [data, setData] = useState();
 
-  const findSensor = timestampArray =>
-    timestampArray.find(sensor => sensor.location_id === sensorId);
+  const findSensor = (timestampArray) =>
+    timestampArray.find((sensor) => sensor.location_id === sensorId);
 
   useEffect(() => {
     window.groupedData
-      .then(data =>
+      .then((data) =>
         data
           .map(findSensor)
-          .filter(exists => exists)
-          .filter(reading => reading[displayedStat])
-          .map(reading => reading[displayedStat])
+          .filter((exists) => exists)
+          .filter((reading) => tryGetTrue(reading)(displayedStat))
+          .map((reading) => tryGetTrue(reading)(displayedStat))
           .reverse()
       )
-      .then(data => {
+      .then((data) => {
         let labels = Array(data.length).fill("");
         setData({
           labels,
@@ -38,9 +41,9 @@ const Chart = ({
               pointHoverRadius: 0,
               pointHitRadius: 0,
               pointBorderWidth: 0,
-              data
-            }
-          ]
+              data,
+            },
+          ],
         });
       });
   }, [sensorId, displayedStat, startDate, endDate]);

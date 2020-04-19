@@ -34,16 +34,13 @@ export default () => {
         </p>
       </div>
       <div className="host">
-        <h2>Host a sensor</h2>
+        <h2>Help us cover the map!</h2>
         <p className="tab">
-          If on the other hand, you are interested in having a sensor in your
-          home, it only needs electricity and Wi-Fi. If this is you case, fill
-          in the details from the form below, and we will contact you in order
-          to arrange everything. This also means, that you will have an idea of
-          what the air quality is like around the space where you install the
-          sensor!
+          We work to see the city in full coverage of sensors. If you're
+          interested in the air quality in your area, consider hosting a sensor.
+          A sensor only uses a very minimal amount electricity, and Wi-Fi. If
+          this is you case, please simply give us your email address below.
         </p>
-        <Form />
       </div>
       <div className="info">
         <p className="tab">
@@ -57,6 +54,7 @@ export default () => {
           will inform Aberdeen about their air quality.
         </p>
       </div>
+      <Form />
     </div>
   );
 };

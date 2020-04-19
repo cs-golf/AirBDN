@@ -3,20 +3,23 @@ from datetime import timedelta, date, datetime
 import requests
 # from pprint import pprint
 
-from query_scripts import floatify, floor_date, floor_date_2
+from query_scripts import floatify, floor_date
 from config import luftdaten_dictionary
 from DatabaseHandler import DatabaseHandler
 from HumidityScrape import HumidityScrape
 from SensorScrape import SensorScrape
 
 
+from pprint import pprint
+
+
 class ArcSensorDataHandler:
-    def __init__(self, area, url, db_name):
+    def __init__(self, area, db):
         self.__area = area
 
         self.__s_scaper = SensorScrape(self.__area)
 
-        self.__db = DatabaseHandler(url, db_name)
+        self.__db = db
 
     def __parse_to_mongo(self, headings, row):
         for i, key in enumerate(headings[6:]):
@@ -25,6 +28,20 @@ class ArcSensorDataHandler:
                 self.__db.insert(self.__db.pyreadings,
                                  {"location_id": int(row[2]), "timestamp": floor_date(parse(row[5]))},
                                  {f"{luftdaten_dictionary[key]}": floatify(row[i])})
+        
+
+        
+
+        if row[1] == "DHT22":
+            true_hum = self.__db.queryr(self.__db.pyweather, {"date_time": {
+            "$gte": row[5]-timedelta(hours=0, minutes=30),
+            "$lt": row[5]+timedelta(hours=0, minutes=30)}}, { "Humidity.$": 1 }).replace("%", "")
+
+            print("-- new humidity added to DHT --\n")
+            self.__db.insert(self.__db.pyreadings,
+                            {"location_id": int(row[2]), "timestamp": floor_date(parse(row[5]))},
+                             {"true_humidity": true_hum})
+            
 
     def __mongo_update_readings_day(self, sensor_name_id, day):
         # takes sensor_name_id = {name}_sensor_{id} & date = 2019-12-25
@@ -32,7 +49,7 @@ class ArcSensorDataHandler:
 
         # raw_readings = [[headings],[row],[row]...]
         raw_readings = self.__s_scaper.get_raw_readings(sensor_name_id, day)
-
+        pprint(raw_readings)
         if raw_readings:
             for row in raw_readings[1:]:
                 self.__parse_to_mongo(raw_readings[0], row)
@@ -63,16 +80,7 @@ class ArcSensorDataHandler:
 
 
 def main():
-    # pprint(mongo_update_info(aberdeen_box))
-    dug = ArcSensorDataHandler("57.23,-2.36,57.07,-2.04", "mongodb://localhost:27017/", "AirBDN")
-
-    todays_date = "2020-03-20"
-    yesterdays_date = "2020-03-19"
-    print(todays_date)
-    print(yesterdays_date)
-    dug.mongo_mass_update_readings(yesterdays_date, todays_date)
-    return ()
-
+    return()
 
 if __name__ == '__main__':
     main()

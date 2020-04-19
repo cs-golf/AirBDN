@@ -6,6 +6,8 @@ class DatabaseHandler:
         self.__db = MongoClient(self.__url)[db_name]
         self.pyinfo = self.__db.info
         self.pyreadings = self.__db.readings
+        self.pyweather = self.__db.weather
+        self.pycontact = self.__db.contact
 
     @staticmethod
     def insert(target_db, filter_dict, insert_dict):
@@ -14,3 +16,7 @@ class DatabaseHandler:
     @staticmethod
     def query(target_db, filter_dict={}):
         return target_db.find(filter_dict)
+    
+    @staticmethod
+    def queryr(target_db, filter_dict={},return_dict={}):
+        return target_db.find(filter_dict, return_dict)

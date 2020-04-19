@@ -65,8 +65,9 @@ class Scrape:
                                 data['Time'] = data['Time'][:5]
                                 # print(time.strptime(
                                 #     str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y"))
-                                data['Date'] = time.strptime(
-                                    str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y")
+                                exact_date = datetime.datetime.strptime(
+                                    str(date) + " " + data['Time'], "%d %B %Y %H:%M")
+                                data['Date'] = exact_date
                                 data['Humidity'] = data['Barometer'][:-1]
                                 data['Barometer'] = data['Visibility'][:-4]
                                 data['Wind'] = data['Wind'][:-3]
@@ -85,4 +86,5 @@ class Scrape:
 # name city  years between scraping for dateandtime.com
 p1 = Scrape('uk', 'aberdeen', 2019)
 p1.execute()
+
 

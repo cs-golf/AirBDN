@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .legend {
 }
 
@@ -79,3 +80,44 @@
 .humScale {
   margin-right: max(3vh, 10px);
 }
+=======
+.infoIcon {
+  position: absolute;
+  z-index: 999;
+  /* background-color: var(--bg); */
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 100px;
+  right: 37px;
+  bottom: 290px;
+}
+
+.infoIcon:hover {
+  cursor: pointer;
+}
+.blurbContainer {
+  position: absolute;
+  z-index: 999;
+  background-color: var(--bg);
+  color: var(--text);
+  width: 300px;
+  right: 130px;
+  bottom: 225px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 7px #333;
+}
+
+.blurbContainer p {
+  margin: 13px 0;
+  margin-left: 15px;
+}
+
+@media (orientation: landscape) {
+  .infoIcon {
+    visibility: hidden;
+  }
+  .blurbContainer {
+    visibility: hidden;
+  }
+}
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053

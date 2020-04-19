@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 :root {
   --bg: #ddd;
@@ -93,3 +94,60 @@ scrollbar style
   visibility: hidden;
 }
 >>>>>>> Stashed changes
+=======
+:root {
+  --bg: #ddd;
+  --bg-h: #ccc;
+  --bg2: #aaa;
+  --bg2-h: #999;
+  --bg-shadow: #aaa;
+  --text: #222;
+  --accent: #1a7aa6;
+  --accent-h: #338fb9;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #333;
+    --bg-h: #444;
+    --bg2: #666;
+    --bg2-h: #888;
+    --bg-shadow: #000;
+    --text: #ddd;
+  }
+}
+
+.pageContent {
+  min-height: calc(100% - 50px);
+  width: 100%;
+  margin-top: 50px;
+  color: var(--text);
+  overflow: hidden;
+}
+@media (orientation: landscape) {
+  .pageContent {
+    min-height: 100%;
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    margin-top: 0px;
+  }
+}
+
+/* 
+scrollbar style 
+*/
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: none;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg2-h);
+}
+::-webkit-scrollbar-corner {
+  visibility: hidden;
+}
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053

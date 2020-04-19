@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 @import '../../App.css';
 
@@ -9,3 +10,10 @@
   fill: var(--text);
 }
 >>>>>>> Stashed changes
+=======
+@import '../../App.css';
+
+.MenuIconPath {
+  fill: var(--text);
+}
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053

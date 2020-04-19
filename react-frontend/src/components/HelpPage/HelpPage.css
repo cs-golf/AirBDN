@@ -1,4 +1,5 @@
 .helpPage {
+<<<<<<< HEAD
   width: 95%;
   max-width: 1100px;
   margin: auto;
@@ -9,18 +10,37 @@
     'build'
     'host';
   grid-gap: 3em;
+=======
+  max-width: 95%;
+  display: grid;
+  grid-template-areas:
+    "fund"
+    "build"
+    "host"
+    "post";
+  grid-gap: 3em;
+  padding: 3em;
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053
   grid-template-rows: auto auto auto;
 }
 
 @media only screen and (min-width: 800px) {
   .helpPage {
     grid-template-areas:
+<<<<<<< HEAD
       'info info info'
       'fund fund .'
       '. build build'
       'host host .';
     grid-template-columns: 1fr 2fr 1fr;
     padding: 3em;
+=======
+      "fund fund ."
+      ". build build"
+      "host host ."
+      "post post post";
+    grid-template-columns: 1fr 2fr 1fr;
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053
   }
 }
 
@@ -43,6 +63,11 @@
   text-decoration: none;
 }
 
+<<<<<<< HEAD
 .info {
   grid-area: info;
+=======
+.post {
+  grid-area: post;
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053
 }

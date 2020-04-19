@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+<<<<<<< HEAD
+=======
+import "./Chart.css";
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053
 import { display } from "../../config.json";
 
 const Chart = ({

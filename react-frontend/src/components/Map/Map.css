@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 @import '../../App.css';
 
@@ -99,3 +100,57 @@
   text-align: center;
 }
 >>>>>>> Stashed changes
+=======
+@import "../../App.css";
+
+#mapid {
+  height: calc(100vh - 50px);
+  width: 100vw;
+}
+@media (orientation: landscape) {
+  #mapid {
+    height: 100vh;
+    margin-top: 0px;
+  }
+}
+
+.map {
+  height: calc(100vh - 50px);
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+@media (orientation: landscape) {
+  .map {
+    height: 100vh;
+    margin-top: 0px;
+  }
+}
+
+.tooltip {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.topImage {
+  position: absolute;
+  display: block;
+
+  height: auto;
+
+  z-index: 900;
+
+  bottom: 20px;
+  right: 10px;
+
+  max-width: min(150px, 20vw);
+}
+
+@media (orientation: landscape) {
+  .topImage {
+    right: 250px;
+  }
+}
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053

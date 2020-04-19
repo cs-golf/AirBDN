@@ -12,9 +12,51 @@ application = Flask(__name__)
 CORS(application)
 
 
+def index():
+    return "<h1>TUTORIAL FOR API HERE</h1><p>/info</p><p>/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</p>"
+
+
 def get_info():
     output = dumps(db_query(db_info))
     return Response(output,  mimetype="application/json")
+
+
+def stream_readings():
+    filter_dict = {}
+    sensorid = request.args.get('sensorid')
+    start = request.args.get('after')
+    end = request.args.get('before')
+    if sensorid:
+        filter_dict["location_id"] = int(sensorid)
+    if start or end:
+        filter_dict["timestamp"] = {}
+        if start:
+            filter_dict["timestamp"]["$gte"] = parse(start)
+        if end:
+            filter_dict["timestamp"]["$lt"] = parse(end)
+
+    def generate():
+        for reading in db_query(db_readings, filter_dict):
+            yield dumps(reading) + '\n'
+
+    return Response(generate(),  mimetype='application/json')
+
+
+def get_readings():
+    filter_dict = {}
+    sensorid = request.args.get('sensorid')
+    start = request.args.get('after')
+    end = request.args.get('before')
+    if sensorid:
+        filter_dict["location_id"] = int(sensorid)
+    if start or end:
+        filter_dict["timestamp"] = {}
+        if start:
+            filter_dict["timestamp"]["$gte"] = parse(start)
+        if end:
+            filter_dict["timestamp"]["$lt"] = parse(end)
+    output = dumps(db_query(db_readings, filter_dict))
+    return Response(output,  mimetype='application/json')
 
 
 def post_contact():
@@ -25,29 +67,12 @@ def post_contact():
     return "Contact details submitted"
 
 
-def get_readings(sensor="any", start="any", end="any"):
-    filter_dict = {}
-    if sensor != "any":
-        filter_dict["location_id"] = int(sensor)
-    if start != "any" or end != "any":
-        filter_dict["timestamp"] = {}
-        if start != "any":
-            filter_dict["timestamp"]["$gte"] = parse(start)
-        if end != "any":
-            filter_dict["timestamp"]["$lt"] = parse(end)
-    output = dumps(db_query(db_readings, filter_dict))
-    return Response(output,  mimetype='application/json')
-
-
-def index():
-    return '<h1>TUTORIAL FOR API HERE</h1><p>/api/info</p><p>/api/readings/sensor=<sensor>/start=<start>/end=<end></p>'
-
-
 application.add_url_rule('/', "index", index)
-application.add_url_rule('/api/info', 'info', get_info)
+application.add_url_rule('/info', 'info', get_info)
+application.add_url_rule('/readings', 'readings', get_readings)
+application.add_url_rule(
+    '/stream/readings', 'stream_readings', stream_readings)
 application.add_url_rule('/contact', 'contact', post_contact, methods=['POST'])
-application.add_url_rule('/api/readings/sensor=<sensor>/start=<start>/end=<end>',
-                         'readings', get_readings)
 
 
 if __name__ == "__main__":

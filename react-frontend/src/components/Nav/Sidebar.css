@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 @import '../../App.css';
 
@@ -142,3 +143,84 @@
   margin: 20px 0px;
 }
 >>>>>>> Stashed changes
+=======
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 240px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 980;
+  background-color: var(--bg);
+  box-shadow: 1px 0px 10px var(--bg-shadow);
+  transition: 0.2s;
+
+  /* flexbox */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  /* scrollbar */
+  overflow-y: overlay;
+}
+@media (orientation: portrait) {
+  .sidebar.hidden {
+    left: -250px;
+  }
+}
+
+.pageNav {
+  flex: 1;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.mapValueNav {
+  margin-bottom: 5vh;
+  font-weight: 450;
+}
+
+.listItem {
+  font-size: 1.2rem;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: var(--text);
+}
+
+.listItem:hover {
+  cursor: pointer;
+  background-color: var(--bg-h);
+}
+
+.activeListItem {
+  /* background-color: var(--bg-h); */
+  color: var(--accent);
+}
+
+.sidebarBanner {
+  max-width: 90%;
+  margin-left: 5%;
+  margin-top: 30px;
+}
+
+.bannerLight {
+  visibility: visible;
+}
+.bannerDark {
+  visibility: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  .bannerLight {
+    visibility: hidden;
+  }
+  .bannerDark {
+    visibility: visible;
+  }
+}
+>>>>>>> 04b0315337a027f09e7f9662a53591c3eab37053

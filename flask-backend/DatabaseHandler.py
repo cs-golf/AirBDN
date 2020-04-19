@@ -15,7 +15,7 @@ class DatabaseHandler:
 
     @staticmethod
     def query(target_db, filter_dict={}):
-        return target_db.find(filter_dict)
+        return target_db.find(filter_dict).sort([("timestamp", -1)])
     
     @staticmethod
     def queryr(target_db, filter_dict={},return_dict={}):

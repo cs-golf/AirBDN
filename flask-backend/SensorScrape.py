@@ -43,3 +43,6 @@ class SensorScrape:
         # [{"sensor":...}, {"sensor":...}...]   ==>   ["{name}_sensor_{id}", "{name}_sensor_{id}"... ]
         return (list(set(map(lambda
                                  device: f"{device['sensor']['sensor_type']['name'].lower()}_sensor_{str(device['sensor']['id'])}", self.get_raw_info()))))
+
+
+    

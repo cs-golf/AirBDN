@@ -1,6 +1,11 @@
 from dateutil.parser import parse
 import requests
 from pprint import pprint
+from pprint import pprint
+import urllib3
+from re import split
+from datetime import datetime, timedelta
+from functools import reduce
 
 from query_scripts import floatify, floor_date, compare_times
 from config import luftdaten_dictionary
@@ -8,6 +13,7 @@ from DatabaseHandler import DatabaseHandler
 from HumidityScrape import HumidityScrape
 
 from SensorScrape import SensorScrape
+
 
 
 class SensorDataHandler:
@@ -82,6 +88,34 @@ class SensorDataHandler:
                 self.__db.insert(self.__db.pyinfo, {"_id": particle_entry['location']['id']},
                                  {f"recent_values.true_{luftdaten_dictionary[reading['value_type']]}": round(
                                      float(self.__normalise_pm25(floatify(reading['value']), hum)), 2)})
+
+
+
+        if particle_entry['sensor']['sensor_type']['name'] == "SDS011":
+
+            yesterday = datetime.today() - timedelta(days=1)
+            last24hrs = list(self.__db.query(self.__db.pyreadings, {"location_id": particle_entry['location']['id'],
+                                                    "timestamp": {"$gt": yesterday}}))
+
+            pm10_24hr = reduce(lambda r1, r2: {'pm10': r1['pm10'] + r2['pm10']},
+                               filter(lambda r: "pm10" in r, last24hrs))['pm10'] / len(last24hrs)
+            pm25_24hr = reduce(lambda r1, r2: {'pm25': r1['pm25'] + r2['pm25']},
+                               filter(lambda r: "pm25" in r, last24hrs))['pm25'] / len(last24hrs)
+
+            self.__db_insert(self.__db.pyinfo, {"_id": particle_entry['location']['id']},
+                      {"recent_values.pm10_24hr": pm10_24hr,
+                       "recent_values.pm25_24hr": pm25_24hr})
+
+        # adds a display name to db entry
+        reading = list(self.__db.query(self.__db.pyinfo, {"_id": particle_entry['location']['id']}))[0]
+        if "display_name" not in reading:
+            # looks up through a free service what address corresponds to [lat, lon]
+            display_name = self.__reverse_geocode(reading["lat"], reading["lon"])
+            # due to free service limits, may return an error, hence the 'if'
+            if display_name:
+                self.__db.insert(self.__db.pyinfo, {"_id": particle_entry['location']['id']},
+                          {"display_name": display_name})
+
 
     # does basically the same but for readings
     def __insert_readings_pairs(self, particle_entry, weather_entry):
@@ -174,6 +208,40 @@ class SensorDataHandler:
             print("-- new humidity added to DHT --\n")
             self.__db.insert(self.__db.pyinfo, {"_id": entry['location']['id']},
                              {"recent_values.true_humidity": self.__humidity})
+
+
+        elif entry['sensor']['sensor_type']['name'] == "SDS011":
+
+            yesterday = datetime.today() - timedelta(days=1)
+            last24hrs = list(self.__db.query(self.__db.pyreadings, {"location_id": entry['location']['id'],
+                                                    "timestamp": {"$gt": yesterday}}))
+
+            pm10_24hr = reduce(lambda r1, r2: {'pm10': r1['pm10'] + r2['pm10']},
+                               filter(lambda r: "pm10" in r, last24hrs))['pm10'] / len(last24hrs)
+            pm25_24hr = reduce(lambda r1, r2: {'pm25': r1['pm25'] + r2['pm25']},
+                               filter(lambda r: "pm25" in r, last24hrs))['pm25'] / len(last24hrs)
+
+            self.__db_insert(self.__db.pyinfo, {"_id": entry['location']['id']},
+                      {"recent_values.pm10_24hr": pm10_24hr,
+                       "recent_values.pm25_24hr": pm25_24hr})
+
+        # adds a display name to db entry
+        reading = list(self.__db.query(self.__db.pyinfo, {"_id": entry['location']['id']}))[0]
+        if "display_name" not in reading:
+            # looks up through a free service what address corresponds to [lat, lon]
+            display_name = self.__reverse_geocode(reading["lat"], reading["lon"])
+            # due to free service limits, may return an error, hence the 'if'
+            if display_name:
+                self.__db.insert(self.__db.pyinfo, {"_id": entry['location']['id']},
+                          {"display_name": display_name})
+
+    def __reverse_geocode(self,lat, lon):
+        resp = requests.get(
+            f"https://eu1.locationiq.com/v1/reverse.php?key=8d93b743dac638&lat={lat}&lon={lon}&format=json").json()
+        if "display_name" not in resp:
+            return
+        addr = resp['address']
+        return(f"{addr['road']}, {addr['suburb']}")
 
 
 

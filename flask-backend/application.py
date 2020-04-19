@@ -10,12 +10,12 @@ from PeriodicUpdate import PeriodicUpdate
 from config import luftdaten_area_box
 
 db = DatabaseHandler("mongodb://localhost:27017/", "AirBDN")
-hds = ArcSensorDataHandler(luftdaten_area_box, db)
-hds.mongo_mass_update_readings("2020-04-18")
-ws = WeatherScrape('uk', 'aberdeen', 2020)
-ws.execute()
+# hds = ArcSensorDataHandler(luftdaten_area_box, db)
+# hds.mongo_mass_update_readings("2020-04-18")
+# ws = WeatherScrape('uk', 'aberdeen', 2020)
+# ws.execute()
 t = PeriodicUpdate()
-# t.start()
+t.start()
 
 application = Flask(__name__)
 CORS(application)

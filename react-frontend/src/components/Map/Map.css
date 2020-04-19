@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 @import '../../App.css';
 
 #mapid {
@@ -64,3 +65,37 @@
   width: auto;
   height: auto;
 }
+=======
+@import "../../App.css";
+
+#mapid {
+  height: calc(100vh - 50px);
+  width: 100vw;
+}
+@media (orientation: landscape) {
+  #mapid {
+    height: 100vh;
+    margin-top: 0px;
+  }
+}
+
+.map {
+  height: calc(100vh - 50px);
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+@media (orientation: landscape) {
+  .map {
+    height: 100vh;
+    margin-top: 0px;
+  }
+}
+
+.tooltip {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 1rem;
+  text-align: center;
+}
+>>>>>>> Stashed changes

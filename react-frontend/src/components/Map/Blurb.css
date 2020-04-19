@@ -1,0 +1,81 @@
+.legend {
+}
+
+.legendImage {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.infoContainer {
+  position: absolute;
+  z-index: 800;
+  right: 0px;
+  bottom: 0px;
+
+  margin-bottom: max(2vh, 10px);
+  height: 8vh;
+  min-height: 50px;
+
+  margin-right: max(5vh, 15px);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.infoContainer:hover {
+  cursor: pointer;
+}
+
+.scaleContainer {
+  position: absolute;
+  z-index: 800;
+  right: 0px;
+  bottom: 0px;
+
+  margin-bottom: max(12vh, 60px);
+  height: 32vh;
+  min-height: 150px;
+
+  margin-right: 1vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.blurbContainer {
+  position: absolute;
+  z-index: 999;
+  background-color: var(--bg);
+  color: var(--text);
+  width: 300px;
+  right: 5vh;
+  bottom: 10vh;
+  border-radius: 10px;
+  box-shadow: 0px 0px 7px #333;
+}
+
+.blurbContainer p {
+  margin: 13px 0;
+  margin-left: 15px;
+}
+
+@media (orientation: landscape) {
+  .scaleContainer {
+    right: 240px;
+  }
+  .infoContainer {
+    right: 240px;
+  }
+  .blurbContainer {
+    right: calc(5vh + 240px);
+  }
+}
+
+.tempScale {
+  margin-right: max(3vh, 10px);
+}
+
+.humScale {
+  margin-right: max(3vh, 10px);
+}

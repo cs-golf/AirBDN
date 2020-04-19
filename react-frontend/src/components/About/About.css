@@ -1,4 +1,50 @@
+<<<<<<< Updated upstream
 .aboutPage {
     margin-left: 10vw;
     margin-right: 10vw;
 }
+=======
+.aboutPage {
+  width: 95%;
+  max-width: 1100px;
+  margin: auto;
+
+  display: grid;
+  grid-template-areas:
+    'project'
+    'choices'
+    'team';
+  grid-gap: 3em;
+}
+
+.tab {
+  text-indent: 50px;
+}
+
+@media only screen and (min-width: 800px) {
+  .aboutPage {
+    grid-template-areas:
+      'project project .'
+      '. choices choices'
+      'team team .';
+    grid-template-columns: 1fr 2fr 1fr;
+    margin: 3em auto;
+  }
+}
+
+.aboutTitle {
+  margin-bottom: 0.5em;
+}
+
+.project {
+  grid-area: project;
+}
+
+.team {
+  grid-area: team;
+}
+
+.choices {
+  grid-area: choices;
+}
+>>>>>>> Stashed changes

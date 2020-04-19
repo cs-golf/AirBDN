@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 @import '../../App.css';
 
 * {
@@ -78,3 +79,66 @@
 ::-webkit-scrollbar-corner {
   visibility: hidden;
 }
+=======
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 240px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 980;
+  background-color: var(--bg);
+  box-shadow: 1px 0px 10px var(--bg-shadow);
+  transition: 0.2s;
+
+  /* flexbox */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  /* scrollbar */
+  overflow-y: overlay;
+}
+@media (orientation: portrait) {
+  .sidebar.hidden {
+    left: -250px;
+  }
+}
+
+.pageNav {
+  flex: 1;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.mapValueNav {
+  margin-bottom: 5vh;
+  font-weight: 450;
+}
+
+.listItem {
+  font-size: 1.2rem;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: var(--text);
+}
+
+.listItem:hover {
+  cursor: pointer;
+  background-color: var(--bg-h);
+}
+
+.activeListItem {
+  color: var(--accent);
+}
+
+.sidebarBanner {
+  margin: 20px 0px;
+}
+>>>>>>> Stashed changes

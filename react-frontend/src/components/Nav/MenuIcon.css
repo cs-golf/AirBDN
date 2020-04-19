@@ -1,5 +1,11 @@
+<<<<<<< Updated upstream
 @import '../../App.css';
 
 .MenuIconPath {
   fill: var(--text);
 }
+=======
+.MenuIconPath {
+  fill: var(--text);
+}
+>>>>>>> Stashed changes

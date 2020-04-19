@@ -1,0 +1,81 @@
+<<<<<<< Updated upstream
+=======
+.chartPage {
+  display: grid;
+  grid-template-areas:
+    'text'
+    'chart'
+    'datePicker'
+    'download';
+  grid-gap: 1em;
+}
+
+.text {
+  margin-top: 20px;
+  grid-area: text;
+  text-align: center;
+}
+
+.chartPageDatePicker {
+  grid-area: datePicker;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.chartPageDatePicker .react-date-picker {
+  color: #000;
+  font-weight: 500;
+  text-align: center;
+  background-color: #8b8b8b;
+  margin: 0px 10px;
+  box-shadow: 1px 0px 10px #171717;
+}
+
+.popUpCalendar {
+  position: relative;
+  z-index: 999;
+}
+
+@media only screen and (min-width: 1200px) {
+  .chartPage {
+    margin: 30px;
+    grid-template-areas:
+      'text .'
+      'chart datePicker'
+      'download download';
+    grid-template-columns: 2fr 1fr;
+  }
+  .chartPageDatePicker {
+    grid-area: datePicker;
+    margin: 10px auto;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+.download {
+  margin: 100px auto;
+  grid-area: download;
+  text-align: center;
+  color: var(--text);
+  font-weight: 450;
+  max-width: 450px;
+}
+
+.download a {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.chartCard {
+  max-width: min(100vw, 100%);
+  grid-area: chart;
+  background-color: var(--bg-h);
+  box-shadow: 1px 0px 10px #171717;
+  border-radius: 10px;
+}
+>>>>>>> Stashed changes

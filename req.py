@@ -62,10 +62,15 @@ class Scrape:
                         # restructure the taken json
                         for date, raw_data in data_collection.items():
                             for data in raw_data[('Conditions', 'Comfort')]:
-                                data['Date'] = date
+                                data['Time'] = data['Time'][:5]
+                                # print(time.strptime(
+                                #     str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y"))
+                                data['Date'] = time.strptime(
+                                    str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y")
                                 data['Humidity'] = data['Barometer']
                                 data['Barometer'] = data['Visibility']
                                 del data['Visibility']
+                                del data['Time']
                                 print(data)
                                 collection.insert_one(data)
                                 # here push data in mongo db

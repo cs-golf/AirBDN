@@ -70,6 +70,7 @@ class Scrape:
                                 data['Humidity'] = data['Barometer'][:-1]
                                 data['Barometer'] = data['Visibility'][:-4]
                                 data['Wind'] = data['Wind'][:-3]
+                                data['Temp'] = data['Temp'][:-2]
                                 del data['Visibility']
                                 del data['Time']
                                 print(data)
@@ -84,3 +85,4 @@ class Scrape:
 # name city  years between scraping for dateandtime.com
 p1 = Scrape('uk', 'aberdeen', 2019)
 p1.execute()
+

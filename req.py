@@ -67,8 +67,9 @@ class Scrape:
                                 #     str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y"))
                                 data['Date'] = time.strptime(
                                     str(data['Time']) + ' ' + str(date), "%H:%M %d %B %Y")
-                                data['Humidity'] = data['Barometer']
-                                data['Barometer'] = data['Visibility']
+                                data['Humidity'] = data['Barometer'][:-1]
+                                data['Barometer'] = data['Visibility'][:-4]
+                                data['Wind'] = data['Wind'][:-3]
                                 del data['Visibility']
                                 del data['Time']
                                 print(data)

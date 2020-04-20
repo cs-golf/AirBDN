@@ -74,7 +74,7 @@ export default (props) => {
     tooltip += `${
       displayedStat === "pressure"
         ? Math.floor(sensor.recent_values[displayedStat] / 100)
-        : sensor.recent_values[displayedStat]
+        : tryGetTrue(sensor.recent_values)(displayedStat)
     } ${display.units[displayedStat]}`;
     tooltip += `</div>`;
     return tooltip;
@@ -108,6 +108,9 @@ export default (props) => {
     });
   };
 
+  const tryGetTrue = (obj) => (stat) =>
+    obj[`true_${stat}`] ? obj[`true_${stat}`] : obj[stat];
+
   const parseMapData = (data, displayedStat) => ({
     data: data
       .filter((sensor) => sensor.recent_values[displayedStat])
@@ -118,10 +121,12 @@ export default (props) => {
           lng: sensor.lon,
           value:
             (displayedStat === "pm10" || displayedStat === "pm25"
-              ? calculateAqi(displayedStat)(sensor.recent_values[displayedStat])
+              ? calculateAqi(displayedStat)(
+                  tryGetTrue(sensor.recent_values)(displayedStat)
+                )
               : displayedStat === "pressure"
               ? sensor.recent_values[displayedStat] - 98000
-              : sensor.recent_values[displayedStat]) /
+              : tryGetTrue(sensor.recent_values)(displayedStat)) /
             heatmap.redValues[displayedStat],
         };
       }),

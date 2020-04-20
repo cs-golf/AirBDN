@@ -5,6 +5,7 @@
 firebase.json
 /flask-backend/runtime.txt
 /flask-backend/SECRET.py
+/flask-backend/gap_fill.py
 /flask-backend/Procfile
 temp_archive_script.py
 

@@ -1,6 +1,6 @@
 from math import isnan
 from datetime import datetime
-from dateutil.parser import parse
+
 
 def floatify(value):
     # converts "{number}" to float
@@ -20,8 +20,8 @@ def floor_date(date, period_in_s=300):
     ts = datetime.timestamp(date)
     new_ts = ts - (ts % 300)
     return(datetime.fromtimestamp(new_ts))
-
-
+<<<<<<< Updated upstream:flask-backend/db/query_scripts.py
+=======
 
 
 
@@ -41,3 +41,4 @@ def compare_times(time_a, time_b, time_dif=10):
 # t1 ="2020-03-30 22:00:00"
 # t2 = "2020-03-30 22:00:06"
 # compare_times( t2,t1)
+>>>>>>> Stashed changes:flask-backend/query_scripts.py

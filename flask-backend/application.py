@@ -3,31 +3,22 @@ from flask_cors import CORS
 from bson.json_util import dumps
 from dateutil.parser import parse
 
-from DatabaseHandler import DatabaseHandler
-from ArcSensorDataHandler import ArcSensorDataHandler
-from WeatherScrape import WeatherScrape
-from PeriodicUpdate import PeriodicUpdate
+from db.mongo import db_info, db_readings, db_contact, db_query, db_insert
+from periodic_update import update_thread
 from config import luftdaten_area_box
-
-db = DatabaseHandler("mongodb://localhost:27017/", "AirBDN")
-ws = WeatherScrape('uk', 'aberdeen', 2015)
-ws.execute()
-
-hds = ArcSensorDataHandler(luftdaten_area_box, db)
-hds.mongo_mass_update_readings("2020-04-18")
-
-t = PeriodicUpdate()
-t.start()
 
 application = Flask(__name__)
 CORS(application)
 
+
 def index():
-    return "<h1>TUTORIAL FOR API HERE</h1><p>/info</p><p>/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</p>"
+    return "<p>visit <a href='https://airbdn-api.herokuapp.com/info'>/info</a> for general sensor information and latest readings</p><p>visit <a href='https://airbdn-api.herokuapp.com/readings?after=2020-1-1&before=2020-01-02'>/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</a> for all readings, query by time and sensorid</p><p>visit <a href='https://airbdn-api.herokuapp.com/stream/readings?after=2020-1-1&before=2020-01-02'>/stream/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</a> same as above but in form of a http stream</p>"
+
 
 def get_info():
-    output = dumps(db.query(db.pyinfo))
+    output = dumps(db_query(db_info))
     return Response(output,  mimetype="application/json")
+
 
 def stream_readings():
     filter_dict = {}
@@ -44,11 +35,10 @@ def stream_readings():
             filter_dict["timestamp"]["$lt"] = parse(end)
 
     def generate():
-        for reading in db.query(db.pyreadings, filter_dict):
+        for reading in db_query(db_readings, filter_dict):
             yield dumps(reading) + '\n'
 
     return Response(generate(),  mimetype='application/json')
-
 
 
 def get_readings():
@@ -64,13 +54,14 @@ def get_readings():
             filter_dict["timestamp"]["$gte"] = parse(start)
         if end:
             filter_dict["timestamp"]["$lt"] = parse(end)
-    output = dumps(db.query(db.pyreadings, filter_dict))
+    output = dumps(db_query(db_readings, filter_dict))
     return Response(output,  mimetype='application/json')
+
 
 def post_contact():
     email = request.values.get("email")
     number = request.values.get("number")
-    db.insert(db.pycontact, {"email": email, "number": number}, {
+    db_insert(db_contact, {"email": email, "number": number}, {
               "email": email, "number": number})
     return "Contact details submitted"
 
@@ -85,3 +76,4 @@ application.add_url_rule('/contact', 'contact', post_contact, methods=['POST'])
 
 if __name__ == "__main__":
     application.run(port=1111)
+    update_thread.start()

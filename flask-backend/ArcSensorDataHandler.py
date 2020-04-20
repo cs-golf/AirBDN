@@ -28,9 +28,7 @@ class ArcSensorDataHandler:
                 self.__db.insert(self.__db.pyreadings,
                                  {"location_id": int(row[2]), "timestamp": floor_date(parse(row[5]))},
                                  {f"{luftdaten_dictionary[key]}": floatify(row[i])})
-        
 
-        
 
         if row[1] == "DHT22":
             time = parse(row[5])
@@ -38,11 +36,10 @@ class ArcSensorDataHandler:
             "$gte": time-timedelta(hours=0, minutes=30),
             "$lt": time+timedelta(hours=0, minutes=30)}}, { "Humidity": 1 })
 
-            print("-- new humidity added to DHT --\n")
             self.__db.insert(self.__db.pyreadings,
                             {"location_id": int(row[2]), "timestamp": floor_date(parse(row[5]))},
                              {"true_humidity": int(true_hum["Humidity"])})
-            
+
 
     def __mongo_update_readings_day(self, sensor_name_id, day):
         # takes sensor_name_id = {name}_sensor_{id} & date = 2019-12-25

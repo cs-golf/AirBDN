@@ -10,7 +10,7 @@ from PeriodicUpdate import PeriodicUpdate
 from config import luftdaten_area_box
 
 db = DatabaseHandler("mongodb://localhost:27017/", "AirBDN")
-ws = WeatherScrape('uk', 'aberdeen', 2015)
+ws = WeatherScrape('uk', 'aberdeen', 2020)
 ws.execute()
 
 hds = ArcSensorDataHandler(luftdaten_area_box, db)

@@ -10,11 +10,13 @@ from PeriodicUpdate import PeriodicUpdate
 from config import luftdaten_area_box
 
 db = DatabaseHandler('mongodb+srv://AirBDN:AirBDN@airbdn-lwnqz.mongodb.net/test?retryWrites=true&w=majority', 'airbdn')
-# ws = WeatherScrape('uk', 'aberdeen', 2020)
+# ws = WeatherScrape('uk', 'aberdeen', 2015)
 # ws.execute()
 
 hds = ArcSensorDataHandler(luftdaten_area_box, db)
-hds.mongo_mass_update_readings("2020-01-02")
+
+
+hds.mongo_mass_update_readings("2015-10-01")
 
 t = PeriodicUpdate()
 t.start()
@@ -48,7 +50,6 @@ def stream_readings():
             yield dumps(reading) + '\n'
 
     return Response(generate(),  mimetype='application/json')
-
 
 
 def get_readings():

@@ -21,6 +21,7 @@ class ArcSensorDataHandler:
 
         self.__db = db
 
+    # inserts to database
     def __parse_to_mongo(self, headings, row):
         for i, key in enumerate(headings[6:]):
             i += 6
@@ -30,7 +31,7 @@ class ArcSensorDataHandler:
                                  {f"{luftdaten_dictionary[key]}": floatify(row[i])})
         
 
-        
+        # check if its a faulty weather sensor and finds  correct value of similar time 
         try:
             if row[1] == "DHT22":
                 time = parse(row[5])

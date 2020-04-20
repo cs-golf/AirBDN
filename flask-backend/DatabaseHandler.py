@@ -10,6 +10,9 @@ class DatabaseHandler:
         self.pyweather = self.__db.weather
         self.pycontact = self.__db.contact
 
+
+
+# data base methods
     @staticmethod
     def insert(target_db, filter_dict, insert_dict):
         target_db.update_one(filter_dict, {'$set': insert_dict}, upsert=True)
@@ -18,6 +21,6 @@ class DatabaseHandler:
     def query(target_db, filter_dict={}):
         return target_db.find(filter_dict).sort([("timestamp", -1)])
     
-    @staticmethod
+    @staticmethod  
     def queryr(target_db, filter_dict={},return_dict={}):
         return target_db.find(filter_dict, return_dict)

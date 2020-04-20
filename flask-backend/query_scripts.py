@@ -15,7 +15,7 @@ def floatify(value):
     except:
         return value
 
-
+# rounds to nearest 5minutes
 def floor_date(date, period_in_s=300):
     ts = datetime.timestamp(date)
     new_ts = ts - (ts % 300)
@@ -24,7 +24,7 @@ def floor_date(date, period_in_s=300):
 
 
 
-
+# compares two times
 def compare_times(time_a, time_b, time_dif=10):
     time_a = parse(time_a)
     time_b = parse(time_b)

@@ -91,6 +91,7 @@ class SensorDataHandler:
 
 
 
+        # if particle sensor true get last 24hr average
         if particle_entry['sensor']['sensor_type']['name'] == "SDS011":
             try:
                 yesterday = datetime.today() - timedelta(days=1)
@@ -156,7 +157,7 @@ class SensorDataHandler:
 
 
 
-
+        # insert readings and corrections 
         for reading in particle_entry['sensordatavalues']:
             self.__db.insert(self.__db.pyreadings,
                              {"location_id": particle_entry['location']['id'],
@@ -218,7 +219,7 @@ class SensorDataHandler:
             self.__db.insert(self.__db.pyinfo, {"_id": entry['location']['id']},
                              {"recent_values.true_humidity": self.__humidity})
 
-
+        # if particle sensor true get last 24hr average
         elif entry['sensor']['sensor_type']['name'] == "SDS011":
             try:
                 yesterday = datetime.today() - timedelta(days=1)
@@ -248,6 +249,7 @@ class SensorDataHandler:
                 self.__db.insert(self.__db.pyinfo, {"_id": entry['location']['id']},
                           {"display_name": display_name})
 
+    # gets display name from rearby features
     def __reverse_geocode(self,lat, lon):
         resp = requests.get(
             f"https://eu1.locationiq.com/v1/reverse.php?key=8d93b743dac638&lat={lat}&lon={lon}&format=json").json()

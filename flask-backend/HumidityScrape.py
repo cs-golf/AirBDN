@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 
 class HumidityScrape:
+    # scrapes local weather station for humidity
     def __init__(self):
         self.__date = datetime.today().strftime('%Y-%m-%d')
         self.__url = f"https://www.metoffice.gov.uk/weather/forecast/gfnt07u1s#?date={self.__date}"

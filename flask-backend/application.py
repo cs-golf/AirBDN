@@ -9,12 +9,12 @@ from WeatherScrape import WeatherScrape
 from PeriodicUpdate import PeriodicUpdate
 from config import luftdaten_area_box
 
-db = DatabaseHandler("mongodb://localhost:27017/", "AirBDN")
-ws = WeatherScrape('uk', 'aberdeen', 2020)
-ws.execute()
+db = DatabaseHandler('mongodb+srv://AirBDN:AirBDN@airbdn-lwnqz.mongodb.net/test?retryWrites=true&w=majority', 'airbdn')
+# ws = WeatherScrape('uk', 'aberdeen', 2020)
+# ws.execute()
 
 hds = ArcSensorDataHandler(luftdaten_area_box, db)
-hds.mongo_mass_update_readings("2020-04-18")
+hds.mongo_mass_update_readings("2020-01-02")
 
 t = PeriodicUpdate()
 t.start()

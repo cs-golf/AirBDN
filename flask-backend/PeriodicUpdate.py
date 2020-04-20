@@ -8,7 +8,7 @@ import datetime
 class PeriodicUpdate(Thread):
     def run(self):
         starttime = time.time()
-        SDH = SensorDataHandler(luftdaten_area_box, "mongodb://localhost:27017/", "AirBDN")
+        SDH = SensorDataHandler(luftdaten_area_box, 'mongodb+srv://AirBDN:AirBDN@airbdn-lwnqz.mongodb.net/test?retryWrites=true&w=majority', 'airbdn')
 
         while True:
             print(f"{time.time()}: updating data for boundary {luftdaten_area_box}")

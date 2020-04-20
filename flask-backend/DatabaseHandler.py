@@ -3,12 +3,8 @@ from pymongo import MongoClient
 class DatabaseHandler:
     def __init__(self, url, db_name):
 
-        try:
-            from SECRET import uri
-        except ImportError:
-            pass
-        self.__url = url
-        self.__db = MongoClient(self.__url)[db_name]
+        
+        self.__db = MongoClient(url)[db_name]
         self.pyinfo = self.__db.info
         self.pyreadings = self.__db.readings
         self.pyweather = self.__db.weather

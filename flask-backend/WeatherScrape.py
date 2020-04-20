@@ -23,7 +23,7 @@ class WeatherScrape:
         self.yearStart = yearStart
         self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
         self.country = country
-        self.db = MongoClient('localhost', 27017)['AirBDN']
+        self.db = MongoClient('mongodb+srv://AirBDN:AirBDN@airbdn-lwnqz.mongodb.net/test?retryWrites=true&w=majority')['airbdn']
         self.collection = self.db ['weather']
 
     # scrape the HTML table of a page

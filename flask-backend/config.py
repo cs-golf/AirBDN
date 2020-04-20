@@ -1,4 +1,4 @@
-luftdaten_area_box = "57.23,-2.36,57.07,-2.04"
+luftdaten_area_box = "57.17,-2.13,57.16,-2.11"
 luftdaten_dictionary = {"P1": "pm10",
                         "P2": "pm25",
                         "temperature": "temperature",

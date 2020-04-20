@@ -9,6 +9,7 @@ from WeatherScrape import WeatherScrape
 from PeriodicUpdate import PeriodicUpdate
 from config import luftdaten_area_box
 
+<<<<<<< HEAD
 db = DatabaseHandler("mongodb://localhost:27017/", "AirBDN")
 ws = WeatherScrape('uk', 'aberdeen', 2015)
 ws.execute()
@@ -19,11 +20,18 @@ hds.mongo_mass_update_readings("2020-04-18")
 t = PeriodicUpdate()
 t.start()
 
+=======
+update_thread.start()
+>>>>>>> parent of 54e8ab06... python testing + small changes
 application = Flask(__name__)
 CORS(application)
 
 def index():
     return "<h1>TUTORIAL FOR API HERE</h1><p>/info</p><p>/readings?after={YYYY-MM-DD}&before={YYYY-MM-DD}&sensorid={ID}</p>"
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 54e8ab06... python testing + small changes
 
 def get_info():
     output = dumps(db.query(db.pyinfo))
@@ -84,4 +92,8 @@ application.add_url_rule('/contact', 'contact', post_contact, methods=['POST'])
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     application.run(port=1111)
+=======
+    application.run(port=1111)
+>>>>>>> parent of 54e8ab06... python testing + small changes

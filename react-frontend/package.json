@@ -6,7 +6,7 @@
   "dependencies": {
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "cypress": "^4.3.0",
     "heatmap.js": "^2.0.5",
